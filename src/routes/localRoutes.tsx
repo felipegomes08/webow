@@ -69,6 +69,54 @@ export const localRoutes = [
     ]
   },
   {
+    path: '/users/main',
+    element: <User />,
+    title: 'Usuários',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Usuários',
+        path: '/users'
+      },
+      {
+        label: 'Cadastro',
+        path: '/users/main'
+      }
+    ]
+  },
+  {
+    path: '/users/ban',
+    element: <User />,
+    title: 'Usuários',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Usuários',
+        path: '/users'
+      },
+      {
+        label: 'Banidos',
+        path: '/users/ban'
+      }
+    ]
+  },
+  {
+    path: '/users/online',
+    element: <User />,
+    title: 'Usuários',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Usuários',
+        path: '/users'
+      },
+      {
+        label: 'Online',
+        path: '/users/online'
+      }
+    ]
+  },
+  {
     path: '/affiliates',
     element: <Affiliates />,
     title: 'Afiliados',

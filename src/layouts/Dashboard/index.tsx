@@ -11,7 +11,7 @@ const Dashboard = (props: { disableCustomTheme?: boolean }) => {
   const location = useLocation();
   const activePath = useActivePath(location);
   return (
-    <Box width={'100vw'} height={'100vh'}>
+    <Box width={'100vw'} height={'100vh'} sx={{ overflowX: 'hidden' }}>
       <CssBaseline enableColorScheme />
       <Box sx={{ display: 'flex' }}>
         <SideMenu />
@@ -28,7 +28,7 @@ const Dashboard = (props: { disableCustomTheme?: boolean }) => {
             title={activePath?.title}
             breadcrumb={activePath?.breadcrumbs}
           />
-          <Box width={'100%'}>
+          <Box width={'100%'} pr={2}>
             <Outlet />
           </Box>
         </Box>
