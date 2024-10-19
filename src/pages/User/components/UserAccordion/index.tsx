@@ -130,13 +130,14 @@ const UserAccordion = ({
           </Box>
         )}
       </AccordionSummary>
-      <AccordionDetails sx={{ width: '100%' }}>
+      <AccordionDetails sx={{ width: '100%', pX: 4 }}>
         <Stack
           direction={'row'}
           borderRadius={theme.shape.borderRadius}
           border={`1.5px solid ${grey[300]}`}
+          p={2}
         >
-          <Stack>
+          <Stack mr={4} spacing={1}>
             <Typography variant="h3">Nome: </Typography>
             <Typography variant="h3">CPF: </Typography>
             <Typography variant="h3">Telefone: </Typography>
@@ -145,7 +146,7 @@ const UserAccordion = ({
             <Typography variant="h3">Senha: </Typography>
             <Typography variant="h3">Confirmar Senha: </Typography>
           </Stack>
-          <Stack>
+          <Stack spacing={1}>
             <Typography variant="h3" fontWeight={'normal'}>
               {nome}
             </Typography>
