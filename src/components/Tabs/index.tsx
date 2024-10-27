@@ -62,7 +62,6 @@ const CustomTabs = ({ listTabs, mainRoute }: CustomTabsProps) => {
       >
         {listTabs.map((tab) => (
           <Tab
-            data-aos="fade-up"
             sx={{
               marginRight: 1,
               bgcolor: tabIndex === tab.value ? grey[300] : grey[200],
