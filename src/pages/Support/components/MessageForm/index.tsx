@@ -20,7 +20,7 @@ const MessageForm = () => {
     resolver: zodResolver(messageSchema)
   });
 
-  const handleSaveMessage = (data: MessageSchema) => {};
+  const handleSaveMessage = (_: MessageSchema) => {};
   return (
     <form
       onSubmit={handleSubmit(handleSaveMessage)}

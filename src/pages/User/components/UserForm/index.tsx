@@ -25,7 +25,7 @@ const UserForm = () => {
     resolver: zodResolver(userSchema)
   });
 
-  const handleSaveUser = (data: UserSchema) => {};
+  const handleSaveUser = (_: UserSchema) => {};
   return (
     <form
       onSubmit={handleSubmit(handleSaveUser)}

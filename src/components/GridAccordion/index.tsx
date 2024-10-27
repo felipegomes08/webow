@@ -19,7 +19,6 @@ const GridAccordion = ({
   icon,
   titleContent,
   detailsContent,
-  finishCallback,
   closeCallback,
   deleteCallback,
   editCallback,

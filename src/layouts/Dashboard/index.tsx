@@ -7,7 +7,7 @@ import SideMenu from 'components/layouts/dashboard/SideMenu';
 import useActivePath from 'hooks/useActivePath';
 import { Outlet, useLocation } from 'react-router-dom';
 
-const Dashboard = (props: { disableCustomTheme?: boolean }) => {
+const Dashboard = (_: { disableCustomTheme?: boolean }) => {
   const location = useLocation();
   const activePath = useActivePath(location);
   return (

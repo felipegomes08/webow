@@ -26,7 +26,7 @@ const MarketingUpSellForm = () => {
     resolver: zodResolver(upSellSchema)
   });
 
-  const handleSaveUpSell = (data: UpSellSchema) => {};
+  const handleSaveUpSell = (_: UpSellSchema) => {};
   return (
     <form
       onSubmit={handleSubmit(handleSaveUpSell)}

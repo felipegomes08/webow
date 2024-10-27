@@ -18,7 +18,7 @@ const UserAccordion = ({
           const [expanded, setExpanded] = useState(false);
 
           const toggleExpand = (
-            event: React.SyntheticEvent,
+            _: React.SyntheticEvent,
             isExpanded: boolean
           ) => {
             setExpanded(isExpanded);

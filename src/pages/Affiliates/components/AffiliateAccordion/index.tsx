@@ -10,27 +10,11 @@ const AffiliateAccordion = ({ affiliateList }: AffiliateAccordionProps) => {
   return (
     <>
       {affiliateList.map(
-        (
-          {
-            nome,
-            link,
-            codigo,
-            afiliados,
-            cpa,
-            cpm,
-            receita,
-            cpf,
-            email,
-            telefone,
-            chavePix,
-            senha
-          },
-          index
-        ) => {
+        ({ nome, link, codigo, afiliados, cpa, cpm, receita }, index) => {
           const [expanded, setExpanded] = useState(false);
 
           const toggleExpand = (
-            event: React.SyntheticEvent,
+            _: React.SyntheticEvent,
             isExpanded: boolean
           ) => {
             setExpanded(isExpanded);

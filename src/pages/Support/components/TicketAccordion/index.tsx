@@ -16,10 +16,7 @@ const TicketAccordion = ({
       {ticketList.map(({ assunto, cpf, conteudo, codigo, data }, index) => {
         const [expanded, setExpanded] = useState(false);
 
-        const toggleExpand = (
-          event: React.SyntheticEvent,
-          isExpanded: boolean
-        ) => {
+        const toggleExpand = (_: React.SyntheticEvent, isExpanded: boolean) => {
           setExpanded(isExpanded);
         };
         return (
