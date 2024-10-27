@@ -2,18 +2,18 @@ import PersonIcon from '@mui/icons-material/Person';
 import { Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
-import { UserAccordionProps } from 'pages/User/components/UserAccordion/UserAccordion.type';
+import { MarketingAffiliateAccordionProps } from 'pages/Marketing/components/MarketingAffiliateAccordion/MarketingAffiliateAccordion.type';
 import { useState } from 'react';
 import theme from 'theme/theme';
 
-const UserAccordion = ({
-  userList,
+const MarketingAffiliateAccordion = ({
+  marketingAffiliateList,
   deleteCallback,
   editCallback
-}: UserAccordionProps) => {
+}: MarketingAffiliateAccordionProps) => {
   return (
     <>
-      {userList.map(
+      {marketingAffiliateList.map(
         ({ nome, cpf, email, telefone, chavePix, senha }, index) => {
           const [expanded, setExpanded] = useState(false);
 
@@ -94,4 +94,4 @@ const UserAccordion = ({
   );
 };
 
-export default UserAccordion;
+export default MarketingAffiliateAccordion;

@@ -2,11 +2,12 @@ import { Box } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import { CustomTabsProps } from 'components/forms/Tabs/CustomTabs.type';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { CustomTabsProps } from 'components/Tabs/CustomTabs.type';
 import * as React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import theme from 'theme/theme';
-import AddButtonTab from '../AddButtonTab';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,6 +40,11 @@ function TabPanel(props: TabPanelProps) {
 const CustomTabs = ({ listTabs, mainRoute }: CustomTabsProps) => {
   const { tab } = useParams();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    AOS.init({ duration: 700, easing: 'ease-in-out', delay: 0 });
+  }, []);
+
   const [tabIndex, setTabIndex] = React.useState(tab || listTabs[0].value);
 
   const handleChange = (_: React.SyntheticEvent, newValue: string) => {
@@ -52,9 +58,11 @@ const CustomTabs = ({ listTabs, mainRoute }: CustomTabsProps) => {
         value={tabIndex}
         onChange={handleChange}
         TabIndicatorProps={{ sx: { display: 'none' } }}
+        data-aos="fade-up"
       >
         {listTabs.map((tab) => (
           <Tab
+            data-aos="fade-up"
             sx={{
               marginRight: 1,
               bgcolor: tabIndex === tab.value ? grey[300] : grey[200],
@@ -78,14 +86,13 @@ const CustomTabs = ({ listTabs, mainRoute }: CustomTabsProps) => {
         ))}
       </Tabs>
       {listTabs.map((tab) => (
-        <TabPanel value={tabIndex} index={tab.value}>
+        <TabPanel value={tabIndex} index={tab.value} data-aos="fade-up">
           <Box
             display={'flex'}
             flexDirection={'column'}
             alignItems={'center'}
             gap={2}
           >
-            <AddButtonTab />
             {tab.children}
           </Box>
         </TabPanel>

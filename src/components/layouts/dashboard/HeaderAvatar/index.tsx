@@ -44,7 +44,7 @@ const HeaderAvatar = () => {
       >
         <Box display={'flex'} alignItems={'center'}>
           <Avatar
-            {...stringAvatar('Bruno Mundim')}
+            {...stringAvatar('Amanda Mundim')}
             src="/broken-image.jpg"
             sx={{
               borderRadius: theme.shape.borderRadius,

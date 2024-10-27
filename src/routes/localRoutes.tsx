@@ -143,6 +143,54 @@ export const localRoutes = [
     ]
   },
   {
+    path: '/marketing/affiliates',
+    element: <Marketing />,
+    title: 'Afiliados',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Marketing',
+        path: '/marketing'
+      },
+      {
+        label: 'Afiliados',
+        path: '/maketing/affiliates'
+      }
+    ]
+  },
+  {
+    path: '/marketing/upsell',
+    element: <Marketing />,
+    title: 'UpSell',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Marketing',
+        path: '/marketing'
+      },
+      {
+        label: 'UpSell',
+        path: '/maketing/upsell'
+      }
+    ]
+  },
+  {
+    path: '/marketing/pixel',
+    element: <Marketing />,
+    title: 'Pixel',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Marketing',
+        path: '/marketing'
+      },
+      {
+        label: 'Pixel',
+        path: '/maketing/pixel'
+      }
+    ]
+  },
+  {
     path: '/support',
     element: <Support />,
     title: 'Suporte',
@@ -172,6 +220,38 @@ export const localRoutes = [
     ]
   },
   {
+    path: '/support/ticket',
+    element: <Support />,
+    title: 'Ticket',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Suporte',
+        path: '/support'
+      },
+      {
+        label: 'Mensagem',
+        path: '/support/ticket'
+      }
+    ]
+  },
+  {
+    path: '/support/closedTicket',
+    element: <Support />,
+    title: 'Ticket Fechado',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Suporte',
+        path: '/support'
+      },
+      {
+        label: 'Mensagem',
+        path: '/support/closedTicket'
+      }
+    ]
+  },
+  {
     path: '/system',
     element: <System />,
     title: 'Sistema',
@@ -181,6 +261,38 @@ export const localRoutes = [
       {
         label: 'Sistema',
         path: '/system'
+      }
+    ]
+  },
+  {
+    path: '/system/main',
+    element: <System />,
+    title: 'Sistema',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Sistema',
+        path: '/system'
+      },
+      {
+        label: 'Sistema',
+        path: '/system/main'
+      }
+    ]
+  },
+  {
+    path: '/system/interface',
+    element: <System />,
+    title: 'Interface',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Sistema',
+        path: '/system'
+      },
+      {
+        label: 'Interface',
+        path: '/system/interface'
       }
     ]
   }

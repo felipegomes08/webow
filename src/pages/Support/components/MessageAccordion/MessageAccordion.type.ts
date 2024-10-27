@@ -1,8 +1,8 @@
-import { UserProps } from 'pages/User/types/User.type';
+import { MessageProps } from 'pages/Support/types/Message.type';
 import { MouseEventHandler } from 'react';
 
-export interface UserAccordionProps {
-  userList: UserProps[];
+export interface MessageAccordionProps {
+  messageList: MessageProps[];
   deleteCallback: MouseEventHandler<HTMLButtonElement> | undefined;
   editCallback: MouseEventHandler<HTMLButtonElement> | undefined;
 }
