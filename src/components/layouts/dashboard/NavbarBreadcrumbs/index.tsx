@@ -20,6 +20,7 @@ const NavbarBreadcrumbs = ({ breadcrumb }: NavbarBreadcrumb) => {
   return (
     <StyledBreadcrumbs
       aria-label="breadcrumb"
+      sx={{ margin: 0 }}
       separator={<NavigateNextRoundedIcon sx={{ fontSize: '12px' }} />}
     >
       {breadcrumb?.map((item, index) => (

@@ -26,7 +26,6 @@ const SelectProject = () => {
         borderRadius: theme.shape.borderRadius,
         background: grey[200],
         maxHeight: 56,
-        width: 215,
         '& .MuiOutlinedInput-notchedOutline': {
           border: 'none'
         },

@@ -3,6 +3,7 @@ import CountCard from 'components/CountCard';
 import CustomTabs from 'components/Tabs';
 import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import EvolutionCard from 'pages/Evolution/components/EvolutionCard';
+import { layoutPadding } from 'theme/globalStyles';
 
 const systemCountList = [
   { label: 'Servidores', value: 3 },
@@ -20,7 +21,7 @@ export const Evolution = () => {
   ];
   return (
     <>
-      <Stack direction="row" spacing={2} mb={2}>
+      <Stack direction="row" spacing={2} mb={layoutPadding}>
         {systemCountList.map((count) => (
           <CountCard label={count.label} value={count.value} />
         ))}

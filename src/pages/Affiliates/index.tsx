@@ -4,6 +4,7 @@ import CustomTabs from 'components/Tabs';
 import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import AffiliateAccordion from 'pages/Affiliates/components/AffiliateAccordion';
 import { AffiliateProps } from 'pages/Affiliates/types/Affiliate.type';
+import { layoutPadding } from 'theme/globalStyles';
 
 const affiliates: AffiliateProps[] = [
   {
@@ -51,7 +52,7 @@ export const Affiliates = () => {
   ];
   return (
     <>
-      <Stack direction="row" spacing={2} mb={2} width={'50%'}>
+      <Stack direction="row" spacing={2} mb={layoutPadding} width={'50%'}>
         {affiliatesCountList.map((count) => (
           <CountCard label={count.label} value={count.value} />
         ))}

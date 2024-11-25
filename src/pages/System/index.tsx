@@ -5,6 +5,7 @@ import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import InterfaceCard from 'pages/System/components/InterfaceCard';
 import SystemCard from 'pages/System/components/SystemCard';
 import { configuracao, configuracaoInterface } from 'pages/System/configuracao';
+import { layoutPadding } from 'theme/globalStyles';
 
 const systemCountList = [
   { label: 'Servidores', value: 3 },
@@ -27,7 +28,7 @@ export const System = () => {
   ];
   return (
     <>
-      <Stack direction="row" spacing={2} mb={2}>
+      <Stack direction="row" spacing={2} mb={layoutPadding}>
         {systemCountList.map((count) => (
           <CountCard label={count.label} value={count.value} />
         ))}

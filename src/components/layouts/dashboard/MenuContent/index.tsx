@@ -14,10 +14,7 @@ const MenuContent = () => {
     return pathname.includes(path);
   };
   return (
-    <Stack
-      width={'100%'}
-      sx={{ flexGrow: 1, p: 1, justifyContent: 'space-between' }}
-    >
+    <Stack width={'100%'} sx={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <List dense>
         {localRoutes
           .filter((item) => item.showSidebar)

@@ -4,6 +4,7 @@ import 'aos/dist/aos.css';
 import NavbarBreadcrumbs from 'components/layouts/dashboard/NavbarBreadcrumbs';
 import { PageTitleProps } from 'components/layouts/dashboard/PageTitle/PageTitle.type';
 import { useEffect } from 'react';
+import { layoutPadding } from 'theme/globalStyles';
 
 const PageTitle = ({ title, breadcrumb }: PageTitleProps) => {
   useEffect(() => {
@@ -11,7 +12,7 @@ const PageTitle = ({ title, breadcrumb }: PageTitleProps) => {
   }, []);
 
   return (
-    <Box width={'100%'} my={5} data-aos="fade-up">
+    <Box width={'100%'} marginBottom={layoutPadding} data-aos="fade-up">
       <NavbarBreadcrumbs breadcrumb={breadcrumb} />
       <Typography variant="h1">{title}</Typography>
     </Box>

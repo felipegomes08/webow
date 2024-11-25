@@ -10,6 +10,7 @@ import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import UserAccordion from 'pages/User/components/UserAccordion';
 import { UserProps } from 'pages/User/types/User.type';
 import React from 'react';
+import { layoutPadding } from 'theme/globalStyles';
 import UserForm from './components/UserForm';
 
 const users: UserProps[] = [
@@ -125,7 +126,7 @@ export const User = () => {
           </Box>
         </Box>
       </CustomModal>
-      <Stack direction="row" spacing={2} mb={2}>
+      <Stack direction="row" spacing={2} mb={layoutPadding}>
         {userCountList.map((count) => (
           <CountCard
             label={count.label}
