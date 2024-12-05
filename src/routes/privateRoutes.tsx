@@ -15,9 +15,9 @@ import { Support } from 'pages/Support';
 import { System } from 'pages/System';
 import { User } from 'pages/User';
 
-export const localRoutes = [
+export const privateRoutes = [
   {
-    path: '/home',
+    path: 'home',
     element: <Home />,
     title: 'Início',
     icon: HomeIcon,
@@ -30,7 +30,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/evolution',
+    path: 'evolution',
     element: <Evolution />,
     title: 'Evolução',
     icon: EvolutionIcon,
@@ -43,7 +43,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/bets',
+    path: 'bets',
     element: <Bets />,
     title: 'Apostas',
     icon: BetsIcon,
@@ -56,7 +56,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/users',
+    path: 'users',
     element: <User />,
     title: 'Usuários',
     icon: UsersIcon,
@@ -69,7 +69,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/users/main',
+    path: 'users/main',
     element: <User />,
     title: 'Usuários',
     showSidebar: false,
@@ -85,7 +85,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/users/ban',
+    path: 'users/ban',
     element: <User />,
     title: 'Usuários',
     showSidebar: false,
@@ -101,7 +101,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/users/online',
+    path: 'users/online',
     element: <User />,
     title: 'Usuários',
     showSidebar: false,
@@ -117,7 +117,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/affiliates',
+    path: 'affiliates',
     element: <Affiliates />,
     title: 'Afiliados',
     icon: AffiliatesIcon,
@@ -130,7 +130,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/marketing',
+    path: 'marketing',
     element: <Marketing />,
     title: 'Marketing',
     icon: MarketingIcon,
@@ -143,7 +143,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/marketing/affiliates',
+    path: 'marketing/affiliates',
     element: <Marketing />,
     title: 'Afiliados',
     showSidebar: false,
@@ -159,7 +159,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/marketing/upsell',
+    path: 'marketing/upsell',
     element: <Marketing />,
     title: 'UpSell',
     showSidebar: false,
@@ -175,7 +175,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/marketing/pixel',
+    path: 'marketing/pixel',
     element: <Marketing />,
     title: 'Pixel',
     showSidebar: false,
@@ -191,7 +191,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/support',
+    path: 'support',
     element: <Support />,
     title: 'Suporte',
     icon: SupportIcon,
@@ -204,7 +204,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/support/messages',
+    path: 'support/messages',
     element: <Support />,
     title: 'Mensagem',
     showSidebar: false,
@@ -220,7 +220,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/support/ticket',
+    path: 'support/ticket',
     element: <Support />,
     title: 'Ticket',
     showSidebar: false,
@@ -236,7 +236,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/support/closedTicket',
+    path: 'support/closedTicket',
     element: <Support />,
     title: 'Ticket Fechado',
     showSidebar: false,
@@ -252,7 +252,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/system',
+    path: 'system',
     element: <System />,
     title: 'Sistema',
     icon: SystemIcon,
@@ -265,7 +265,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/system/main',
+    path: 'system/main',
     element: <System />,
     title: 'Sistema',
     showSidebar: false,
@@ -281,7 +281,7 @@ export const localRoutes = [
     ]
   },
   {
-    path: '/system/interface',
+    path: 'system/interface',
     element: <System />,
     title: 'Interface',
     showSidebar: false,

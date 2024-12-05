@@ -5,7 +5,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import Stack from '@mui/material/Stack';
 import { Link, useLocation } from 'react-router-dom';
-import { localRoutes } from 'routes/localRoutes';
+import { privateRoutes } from 'routes/privateRoutes';
 import theme from 'theme/theme';
 
 const MenuContent = () => {
@@ -16,7 +16,7 @@ const MenuContent = () => {
   return (
     <Stack width={'100%'} sx={{ flexGrow: 1, justifyContent: 'space-between' }}>
       <List dense>
-        {localRoutes
+        {privateRoutes
           .filter((item) => item.showSidebar)
           .map((item) => (
             <ListItem key={item.title} disablePadding sx={{ display: 'block' }}>

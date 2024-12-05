@@ -4,9 +4,11 @@ import { InputTextFieldProps } from 'components/InputTextField/InputTextField.ty
 const InputTextField = ({ register, ...rest }: InputTextFieldProps) => {
   return (
     <TextField
-      variant="standard"
       size="small"
-      sx={{ width: '100%', fontSize: '5px' }}
+      sx={{
+        width: '100%',
+        fontSize: '5px'
+      }}
       {...register}
       {...rest}
     />

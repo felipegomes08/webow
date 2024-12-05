@@ -12,7 +12,7 @@ const InputPasswordField = ({ register, ...rest }: InputPasswordFieldProps) => {
 
   return (
     <TextField
-      variant="standard"
+      size={'small'}
       sx={{ width: '100%' }}
       type={showPassword ? 'text' : 'password'}
       {...register}

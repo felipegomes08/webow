@@ -1,9 +1,9 @@
 import { Location } from 'react-router-dom';
-import { localRoutes } from 'routes/localRoutes';
+import { privateRoutes } from 'routes/privateRoutes';
 
 const useActivePath = (location: Location) => {
   const path = location.pathname;
-  return localRoutes.find((x) => x.path === path);
+  return privateRoutes.find((x) => x.path === path);
 };
 
 export default useActivePath;
