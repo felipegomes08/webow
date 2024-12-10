@@ -4,29 +4,29 @@ import Box from '@mui/material/Box';
 import brand from 'assets/brand.svg';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'O e-mail é obrigatório')
-    .email('Formato de e-mail inválido'),
-  password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres')
-});
-
-type LoginSchema = z.infer<typeof loginSchema>;
+import { AuthContext } from 'context/AuthContext';
+import { AuthContextType } from 'context/AuthContext/AuthContext.type';
+import { loginSchema, LoginSchema } from 'pages/Login/types/Login.type';
+import { useContext } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import ReactInputMask from 'react-input-mask';
 
 const LoginFormCard = () => {
+  const { signIn } = useContext<AuthContextType>(AuthContext);
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
   } = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema)
   });
 
-  const handleLogin = (_: LoginSchema) => {};
+  const handleLogin = async ({ cpf, password }: LoginSchema) => {
+    console.log({ cpf, password });
+    const result = await signIn(cpf, password);
+    console.log(result);
+  };
 
   return (
     <Box
@@ -47,17 +47,33 @@ const LoginFormCard = () => {
         WeSpace
       </Typography>
       <Typography variant="h4" mb={4}>
-        Entre com seu email para gerenciar a plataforma
+        Entre com seu cpf para gerenciar a plataforma
       </Typography>
       <form
         onSubmit={handleSubmit(handleLogin)}
         style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}
       >
-        <InputTextField
-          label="Email"
-          error={!!errors.email}
-          helperText={errors.email && errors.email.message}
-          register={register('email')}
+        <Controller
+          name="cpf"
+          control={control}
+          defaultValue=""
+          render={({ field, fieldState }) => (
+            <ReactInputMask
+              {...field}
+              mask="999.999.999-99"
+              onChange={(e) => field.onChange(e.target.value)}
+            >
+              {(inputProps) => (
+                <InputTextField
+                  {...inputProps}
+                  label="CPF"
+                  error={!!fieldState.error}
+                  helperText={fieldState.error ? fieldState.error.message : ''}
+                  register={register('cpf')}
+                />
+              )}
+            </ReactInputMask>
+          )}
         />
         <InputPasswordField
           label="Senha"

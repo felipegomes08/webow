@@ -13,7 +13,14 @@ const InputPasswordField = ({ register, ...rest }: InputPasswordFieldProps) => {
   return (
     <TextField
       size={'small'}
-      sx={{ width: '100%' }}
+      sx={{
+        width: '100%',
+        '& input:-webkit-autofill': {
+          WebkitBoxShadow: '0 0 0 100px transparent inset',
+          WebkitTextFillColor: '#000',
+          transition: 'background-color 5000s ease-in-out 0s'
+        }
+      }}
       type={showPassword ? 'text' : 'password'}
       {...register}
       InputProps={{
