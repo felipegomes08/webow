@@ -12,7 +12,7 @@ import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 
 const LoginFormCard = () => {
-  const { signIn } = useContext<AuthContextType>(AuthContext);
+  const { signIn, loading } = useContext<AuthContextType>(AuthContext);
   const {
     register,
     control,
@@ -23,9 +23,7 @@ const LoginFormCard = () => {
   });
 
   const handleLogin = async ({ cpf, password }: LoginSchema) => {
-    console.log({ cpf, password });
     const result = await signIn(cpf, password);
-    console.log(result);
   };
 
   return (

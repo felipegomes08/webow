@@ -5,21 +5,24 @@ import { AuthContextProviderProps, AuthContextType } from './AuthContext.type';
 const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   signIn: () => {},
-  signOut: () => {}
+  signOut: () => {},
+  loading: false
 });
 
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const signIn = async (cpf: string, password: string) => {
-    try {
-      const data = await loginApi(cpf, password);
+    setLoading(true);
+    await loginApi(cpf, password).then(response => {
       setAuthenticated(true);
-      localStorage.setItem('accessToken', data.accessToken);
-    } catch (error) {
-      console.error('Erro ao fazer login:', error);
-      throw error;
-    }
+      localStorage.setItem('accessToken', response.data.accessToken);
+    })
+    .catch(err => console.log(err))
+    .finally(() => {
+      setLoading(false);
+    })
   };
 
   const signOut = async () => {
@@ -33,7 +36,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ authenticated, signIn, signOut }}>
+    <AuthContext.Provider value={{ authenticated, signIn, signOut, loading }}>
       {children}
     </AuthContext.Provider>
   );
