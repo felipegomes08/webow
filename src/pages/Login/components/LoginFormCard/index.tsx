@@ -1,18 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import brand from 'assets/brand.svg';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
 import { AuthContext } from 'context/AuthContext';
 import { AuthContextType } from 'context/AuthContext/AuthContext.type';
-import { loginSchema, LoginSchema } from 'pages/Login/types/Login.type';
-import { useContext } from 'react';
+import { LoginResponse, loginSchema, LoginSchema } from 'pages/Login/types/Login.type';
+import { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const LoginFormCard = () => {
-  const { signIn, loading } = useContext<AuthContextType>(AuthContext);
+  const { signIn } = useContext<AuthContextType>(AuthContext);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
   const {
     register,
     control,
@@ -23,7 +27,19 @@ const LoginFormCard = () => {
   });
 
   const handleLogin = async ({ cpf, password }: LoginSchema) => {
-    const result = await signIn(cpf, password);
+    setLoading(true)
+    const result:LoginResponse = await signIn(cpf, password);
+    if(result?.success){
+      toast.success("Seja bem vindo !", {
+        position: "top-center"
+      });
+      navigate('/app/home')
+    }else{
+      const message: string = result?.message ? result.message : "Falha no login. Verifique suas credenciais."
+      console.log({result})
+      toast.error(message, { position: "top-center" });
+    }
+    setLoading(false)
   };
 
   return (
@@ -80,7 +96,7 @@ const LoginFormCard = () => {
           register={register('password')}
         />
         <Button variant="contained" type="submit">
-          Entrar
+          {loading ? <CircularProgress size={24} color="inherit" /> : 'Entrar'}
         </Button>
       </form>
     </Box>

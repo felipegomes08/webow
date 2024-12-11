@@ -19,6 +19,7 @@ import React from 'react';
 import theme from 'theme/theme';
 
 const HeaderAvatar = () => {
+  const userName = localStorage.getItem('currentUserName')
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -44,7 +45,7 @@ const HeaderAvatar = () => {
       >
         <Box display={'flex'} alignItems={'center'}>
           <Avatar
-            {...stringAvatar('Amanda Mundim')}
+            {...stringAvatar(userName || '')}
             src="/broken-image.jpg"
             sx={{
               borderRadius: theme.shape.borderRadius,

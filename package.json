@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "lint-fix": "eslint . -f",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -30,6 +31,7 @@
     "react-hook-form": "^7.53.1",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.26.2",
+    "react-toastify": "^10.0.6",
     "zod": "^3.23.8"
   },
   "devDependencies": {

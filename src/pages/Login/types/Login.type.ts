@@ -16,3 +16,41 @@ export const loginSchema = z.object({
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;
+
+export interface LoginResponse {
+  data: {
+    id: string;
+    name: string;
+    cpf: string;
+    email: string;
+    phone: string;
+    pixKey: string;
+    password: string;
+    balance: number;
+    createdAt: string;
+    updatedAt: string;
+    uf: string;
+    accessToken: string;
+    accountType: {
+      id: string;
+      name: string;
+      label: string;
+    };
+    accountTypeId: string;
+    affiliateId: string | null;
+    status: {
+      id: string;
+      name: string;
+      label: string;
+    };
+    statusId: string;
+    userType: {
+      id: string;
+      name: string;
+      label: string;
+    };
+    userTypeId: string;
+  },
+  message: string,
+  success: boolean
+}
