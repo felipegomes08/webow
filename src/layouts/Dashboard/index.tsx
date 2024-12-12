@@ -5,16 +5,26 @@ import { alpha } from '@mui/material/styles';
 import Header from 'components/layouts/dashboard/Header';
 import PageTitle from 'components/layouts/dashboard/PageTitle';
 import SideMenu from 'components/layouts/dashboard/SideMenu';
+import { AuthContext } from 'context/AuthContext';
 import useActivePath from 'hooks/useActivePath';
-import { useState } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { layoutPadding, sidebarWidth } from 'theme/globalStyles';
 import theme from 'theme/theme';
 
 const Dashboard = (_: { disableCustomTheme?: boolean }) => {
+  const { authenticated, signOut } = useContext(AuthContext);
   const location = useLocation();
   const activePath = useActivePath(location);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    if (!authenticated) {
+      signOut();
+      navigate('/');
+    }
+  }, [authenticated]);
 
   const handleDrawerOpen = () => {
     setOpen(true);

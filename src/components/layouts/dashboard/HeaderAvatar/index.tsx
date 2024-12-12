@@ -3,6 +3,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import {
   Avatar,
   Box,
+  CircularProgress,
   Divider,
   dividerClasses,
   listClasses,
@@ -19,7 +20,7 @@ import React from 'react';
 import theme from 'theme/theme';
 
 const HeaderAvatar = () => {
-  const userName = localStorage.getItem('currentUserName')
+  const userName = localStorage.getItem('currentUserName');
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -29,8 +30,13 @@ const HeaderAvatar = () => {
     setAnchorEl(null);
   };
   function stringAvatar(name: string) {
+    const nameSplitted = name.split(' ');
+    let nameFormatted = '';
+    nameSplitted.forEach((name) => {
+      nameFormatted += name[0];
+    });
     return {
-      children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`
+      children: nameFormatted
     };
   }
   return (
@@ -44,19 +50,23 @@ const HeaderAvatar = () => {
         }}
       >
         <Box display={'flex'} alignItems={'center'}>
-          <Avatar
-            {...stringAvatar(userName || '')}
-            src="/broken-image.jpg"
-            sx={{
-              borderRadius: theme.shape.borderRadius,
-              width: 34,
-              height: 34,
-              bgcolor: grey[300],
-              color: grey[900],
-              fontSize: '11px',
-              fontWeight: 'bold'
-            }}
-          />
+          {userName ? (
+            <Avatar
+              {...stringAvatar('Usuario')}
+              src="/broken-image.jpg"
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+                width: 34,
+                height: 34,
+                bgcolor: grey[300],
+                color: grey[900],
+                fontSize: '11px',
+                fontWeight: 'bold'
+              }}
+            />
+          ) : (
+            <CircularProgress />
+          )}
           <KeyboardArrowDownIcon sx={{ color: grey[900], fontSize: '18px' }} />
         </Box>
       </MenuButton>

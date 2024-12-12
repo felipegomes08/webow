@@ -33,7 +33,7 @@ export const System = () => {
           <CountCard label={count.label} value={count.value} />
         ))}
       </Stack>
-      <CustomTabs listTabs={listTabs} mainRoute="/system" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/system" />
     </>
   );
 };

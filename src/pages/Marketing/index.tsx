@@ -178,7 +178,7 @@ src="https://www.facebook.com/tr?id=875304520827655&ev=PageView&noscript=1"
           </Box>
         </Box>
       </CustomModal>
-      <CustomTabs listTabs={listTabs} mainRoute="/marketing" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/marketing" />
     </>
   );
 };

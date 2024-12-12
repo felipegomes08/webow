@@ -6,17 +6,22 @@ import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
 import { AuthContext } from 'context/AuthContext';
 import { AuthContextType } from 'context/AuthContext/AuthContext.type';
-import { LoginResponse, loginSchema, LoginSchema } from 'pages/Login/types/Login.type';
+import {
+  LoginResponse,
+  loginSchema,
+  LoginSchema
+} from 'pages/Login/types/Login.type';
 import { useContext, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { LoginFormCardProps } from './LoginFormCard.type';
 
-const LoginFormCard = () => {
+const LoginFormCard = ({ pathname }: LoginFormCardProps) => {
   const { signIn } = useContext<AuthContextType>(AuthContext);
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const {
     register,
     control,
@@ -27,19 +32,21 @@ const LoginFormCard = () => {
   });
 
   const handleLogin = async ({ cpf, password }: LoginSchema) => {
-    setLoading(true)
-    const result:LoginResponse = await signIn(cpf, password);
-    if(result?.success){
-      toast.success("Seja bem vindo !", {
-        position: "top-center"
+    setLoading(true);
+    const result: LoginResponse = await signIn(cpf, password);
+    if (result?.success) {
+      toast.success('Seja bem vindo !', {
+        position: 'top-center'
       });
-      navigate('/app/home')
-    }else{
-      const message: string = result?.message ? result.message : "Falha no login. Verifique suas credenciais."
-      console.log({result})
-      toast.error(message, { position: "top-center" });
+      navigate('/app/home');
+    } else {
+      const message: string = result?.message
+        ? result.message
+        : 'Falha no login. Verifique suas credenciais.';
+      console.log({ result });
+      toast.error(message, { position: 'top-center' });
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   return (
@@ -80,6 +87,7 @@ const LoginFormCard = () => {
               {(inputProps) => (
                 <InputTextField
                   {...inputProps}
+                  type="text"
                   label="CPF"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}

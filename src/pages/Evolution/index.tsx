@@ -26,7 +26,7 @@ export const Evolution = () => {
           <CountCard label={count.label} value={count.value} />
         ))}
       </Stack>
-      <CustomTabs listTabs={listTabs} mainRoute="/evolution" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/evolution" />
     </>
   );
 };

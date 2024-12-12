@@ -25,7 +25,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Início',
-        path: '/home'
+        path: '/app/home'
       }
     ]
   },
@@ -38,7 +38,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Evolução',
-        path: '/evolution'
+        path: '/app/evolution'
       }
     ]
   },
@@ -51,7 +51,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Apostas',
-        path: '/bets'
+        path: '/app/bets'
       }
     ]
   },
@@ -64,7 +64,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Usuários',
-        path: '/users'
+        path: '/app/users'
       }
     ]
   },
@@ -76,11 +76,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Usuários',
-        path: '/users'
+        path: '/app/users'
       },
       {
         label: 'Cadastro',
-        path: '/users/main'
+        path: '/app/users/main'
       }
     ]
   },
@@ -92,11 +92,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Usuários',
-        path: '/users'
+        path: '/app/users'
       },
       {
         label: 'Banidos',
-        path: '/users/ban'
+        path: '/app/users/ban'
       }
     ]
   },
@@ -108,11 +108,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Usuários',
-        path: '/users'
+        path: '/app/users'
       },
       {
         label: 'Online',
-        path: '/users/online'
+        path: '/app/users/online'
       }
     ]
   },
@@ -125,7 +125,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Afiliados',
-        path: '/affiliates'
+        path: '/app/affiliates'
       }
     ]
   },
@@ -138,7 +138,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Marketing',
-        path: '/marketing'
+        path: '/app/marketing'
       }
     ]
   },
@@ -150,11 +150,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Marketing',
-        path: '/marketing'
+        path: '/app/marketing'
       },
       {
         label: 'Afiliados',
-        path: '/maketing/affiliates'
+        path: '/app/maketing/affiliates'
       }
     ]
   },
@@ -166,11 +166,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Marketing',
-        path: '/marketing'
+        path: '/app/marketing'
       },
       {
         label: 'UpSell',
-        path: '/maketing/upsell'
+        path: '/app/maketing/upsell'
       }
     ]
   },
@@ -182,11 +182,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Marketing',
-        path: '/marketing'
+        path: '/app/marketing'
       },
       {
         label: 'Pixel',
-        path: '/maketing/pixel'
+        path: '/app/maketing/pixel'
       }
     ]
   },
@@ -199,7 +199,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Suporte',
-        path: '/support'
+        path: '/app/support'
       }
     ]
   },
@@ -211,11 +211,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Suporte',
-        path: '/support'
+        path: '/app/support'
       },
       {
         label: 'Mensagem',
-        path: '/support/messages'
+        path: '/app/support/messages'
       }
     ]
   },
@@ -227,11 +227,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Suporte',
-        path: '/support'
+        path: '/app/support'
       },
       {
         label: 'Mensagem',
-        path: '/support/ticket'
+        path: '/app/support/ticket'
       }
     ]
   },
@@ -243,11 +243,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Suporte',
-        path: '/support'
+        path: '/app/support'
       },
       {
         label: 'Mensagem',
-        path: '/support/closedTicket'
+        path: '/app/support/closedTicket'
       }
     ]
   },
@@ -260,7 +260,7 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Sistema',
-        path: '/system'
+        path: '/app/system'
       }
     ]
   },
@@ -272,11 +272,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Sistema',
-        path: '/system'
+        path: '/app/system'
       },
       {
         label: 'Sistema',
-        path: '/system/main'
+        path: '/app/system/main'
       }
     ]
   },
@@ -288,11 +288,11 @@ export const privateRoutes = [
     breadcrumbs: [
       {
         label: 'Sistema',
-        path: '/system'
+        path: '/app/system'
       },
       {
         label: 'Interface',
-        path: '/system/interface'
+        path: '/app/system/interface'
       }
     ]
   }

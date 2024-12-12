@@ -16,6 +16,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const accessToken = localStorage.getItem('access_token');
     if (accessToken) {
       api.defaults.headers.Authorization = `Bearer ${accessToken}`;
@@ -23,6 +24,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     } else {
       signOut();
     }
+    setLoading(false);
   }, []);
 
   const signIn = async (cpf: string, password: string) => {

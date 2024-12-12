@@ -1,6 +1,6 @@
-import { IcecreamRounded } from '@mui/icons-material';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
+import brandWhite from 'assets/brand-white.svg';
 
 const LoginBannerCard = () => {
   return (
@@ -24,7 +24,11 @@ const LoginBannerCard = () => {
       >
         SLOGAN DO JOGO NESSE LOCAL. SLOGAN DO JOGO NESSE LOCAL.
       </Typography>
-      <IcecreamRounded sx={{ position: 'absolute', bottom: 40, right: 40 }} />
+      <img
+        src={brandWhite}
+        width={40}
+        style={{ position: 'absolute', bottom: 40, right: 40 }}
+      />
     </Box>
   );
 };

@@ -17,7 +17,7 @@ const PageNotFound = () => {
       <Typography variant="h1" marginBottom={2}>
         Opss... Página não encontrada!
       </Typography>
-      <Link to={'/'}>
+      <Link to={'/app/home'}>
         <Button variant="contained" startIcon={<ArrowBack />}>
           Voltar
         </Button>

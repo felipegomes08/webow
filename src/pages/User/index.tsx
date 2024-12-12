@@ -135,7 +135,7 @@ export const User = () => {
           />
         ))}
       </Stack>
-      <CustomTabs listTabs={listTabs} mainRoute="/users" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/users" />
     </>
   );
 };

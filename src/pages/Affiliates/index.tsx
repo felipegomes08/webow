@@ -57,7 +57,7 @@ export const Affiliates = () => {
           <CountCard label={count.label} value={count.value} />
         ))}
       </Stack>
-      <CustomTabs listTabs={listTabs} mainRoute="/affiliates" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/affiliates" />
     </>
   );
 };

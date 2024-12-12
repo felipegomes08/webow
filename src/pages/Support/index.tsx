@@ -137,7 +137,7 @@ export const Support = () => {
           </Box>
         </Box>
       </CustomModal>
-      <CustomTabs listTabs={listTabs} mainRoute="/support" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/support" />
     </>
   );
 };
