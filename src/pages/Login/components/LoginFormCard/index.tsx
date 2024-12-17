@@ -16,9 +16,8 @@ import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { LoginFormCardProps } from './LoginFormCard.type';
 
-const LoginFormCard = ({ pathname }: LoginFormCardProps) => {
+const LoginFormCard = () => {
   const { signIn } = useContext<AuthContextType>(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -43,7 +42,6 @@ const LoginFormCard = ({ pathname }: LoginFormCardProps) => {
       const message: string = result?.message
         ? result.message
         : 'Falha no login. Verifique suas credenciais.';
-      console.log({ result });
       toast.error(message, { position: 'top-center' });
     }
     setLoading(false);
