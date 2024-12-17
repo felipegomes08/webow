@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://webow-backend.onrender.com/',
+  baseURL: 'https://webow-backend.onrender.com/api',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -24,7 +24,7 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       try {
         const { data } = await axios.post(
-          '/api/auth/refresh-token',
+          '/auth/refresh-token',
           {},
           { withCredentials: true }
         );

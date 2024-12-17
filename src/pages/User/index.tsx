@@ -1,6 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useQuery } from '@tanstack/react-query';
 import AddButtonTab from 'components/AddButtonTab';
 import CountCard from 'components/CountCard';
 import CustomModal from 'components/CustomModal';
@@ -10,8 +11,10 @@ import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import UserAccordion from 'pages/User/components/UserAccordion';
 import { UserProps } from 'pages/User/types/User.type';
 import React from 'react';
+import api from 'services/api';
 import { layoutPadding } from 'theme/globalStyles';
 import UserForm from './components/UserForm';
+import { UserGridResponse } from './types/UserApi.type';
 
 const users: UserProps[] = [
   {
@@ -42,6 +45,17 @@ const userCountList = [
 export const User = () => {
   const [open, setOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState(ModalTypeEnum.INSERT);
+
+  const { data, isLoading } = useQuery<UserGridResponse>({
+    queryKey: ['get-users'],
+    queryFn: async () => {
+      const response: UserGridResponse = await api.get(
+        '/users?page=1&limit=10'
+      );
+      return response;
+    }
+  });
+
   const handleOpen = (modalType: number) => {
     setModalType(modalType);
     setOpen(true);
@@ -59,7 +73,7 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userList={users}
+            userGridResponseData={data?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
           />
@@ -73,7 +87,7 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userList={users}
+            userGridResponseData={data?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
           />
@@ -87,7 +101,7 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userList={users}
+            userGridResponseData={data?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
           />

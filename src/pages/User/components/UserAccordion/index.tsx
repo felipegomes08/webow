@@ -7,14 +7,14 @@ import { useState } from 'react';
 import theme from 'theme/theme';
 
 const UserAccordion = ({
-  userList,
+  userGridResponseData,
   deleteCallback,
   editCallback
 }: UserAccordionProps) => {
   return (
     <>
-      {userList.map(
-        ({ nome, cpf, email, telefone, chavePix, senha }, index) => {
+      {userGridResponseData?.users.map(
+        ({ name, cpf, email, phone, pixKey, userType }, index) => {
           const [expanded, setExpanded] = useState(false);
 
           const toggleExpand = (
@@ -30,12 +30,12 @@ const UserAccordion = ({
               icon={<PersonIcon sx={{ color: grey[900] }} />}
               titleContent={
                 <>
-                  <Typography variant="h3">{nome}</Typography>
+                  <Typography variant="h3">{name}</Typography>
                   <Typography variant="h4" fontWeight={'500'}>
                     {cpf}
                   </Typography>
                   <Typography variant="h4" fontWeight={'500'}>
-                    {telefone}
+                    {phone}
                   </Typography>
                   <Typography variant="h4" fontWeight={'500'}>
                     {email}
@@ -55,12 +55,11 @@ const UserAccordion = ({
                     <Typography variant="h3">Telefone: </Typography>
                     <Typography variant="h3">Email: </Typography>
                     <Typography variant="h3">Chave-Pix: </Typography>
-                    <Typography variant="h3">Senha: </Typography>
-                    <Typography variant="h3">Confirmar Senha: </Typography>
+                    <Typography variant="h3">Tipo: </Typography>
                   </Stack>
                   <Stack spacing={1}>
                     <Typography variant="h3" fontWeight={'normal'}>
-                      {nome}
+                      {name}
                     </Typography>
                     <Typography variant="h3" fontWeight={'normal'}>
                       {cpf}
@@ -69,16 +68,13 @@ const UserAccordion = ({
                       {email}
                     </Typography>
                     <Typography variant="h3" fontWeight={'normal'}>
-                      {telefone}
+                      {phone}
                     </Typography>
                     <Typography variant="h3" fontWeight={'normal'}>
-                      {chavePix}
+                      {pixKey}
                     </Typography>
                     <Typography variant="h3" fontWeight={'normal'}>
-                      {senha}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      ********
+                      {userType.name}
                     </Typography>
                   </Stack>
                 </Stack>

@@ -1,8 +1,8 @@
-import { UserProps } from 'pages/User/types/User.type';
+import { UserGridResponseData } from 'pages/User/types/UserApi.type';
 import { MouseEventHandler } from 'react';
 
 export interface UserAccordionProps {
-  userList: UserProps[];
+  userGridResponseData: UserGridResponseData | undefined;
   deleteCallback: MouseEventHandler<HTMLButtonElement> | undefined;
   editCallback: MouseEventHandler<HTMLButtonElement> | undefined;
 }
