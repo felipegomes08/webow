@@ -17,7 +17,7 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   useEffect(() => {
     setLoading(true);
-    const accessToken = localStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       api.defaults.headers.Authorization = `Bearer ${accessToken}`;
       setAuthenticated(true);

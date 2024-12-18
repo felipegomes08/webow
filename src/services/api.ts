@@ -23,11 +23,10 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
-        const { data } = await axios.post(
-          '/auth/refresh-token',
-          {},
-          { withCredentials: true }
-        );
+        const token = localStorage.getItem('accessToken');
+        const { data } = await axios.post('/auth/refresh-token', {
+          token
+        });
 
         localStorage.setItem('accessToken', data.accessToken);
 

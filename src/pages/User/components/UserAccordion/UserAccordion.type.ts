@@ -5,4 +5,7 @@ export interface UserAccordionProps {
   userGridResponseData: UserGridResponseData | undefined;
   deleteCallback: MouseEventHandler<HTMLButtonElement> | undefined;
   editCallback: MouseEventHandler<HTMLButtonElement> | undefined;
+  isLoading: boolean;
+  page: number;
+  limit: number;
 }

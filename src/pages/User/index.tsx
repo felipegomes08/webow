@@ -1,7 +1,7 @@
 import PersonIcon from '@mui/icons-material/Person';
 import { Box, Button, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import AddButtonTab from 'components/AddButtonTab';
 import CountCard from 'components/CountCard';
 import CustomModal from 'components/CustomModal';
@@ -9,31 +9,13 @@ import { ModalTypeEnum } from 'components/CustomModal/CustomModal.enum';
 import CustomTabs from 'components/Tabs';
 import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
 import UserAccordion from 'pages/User/components/UserAccordion';
-import { UserProps } from 'pages/User/types/User.type';
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from 'services/api';
 import { layoutPadding } from 'theme/globalStyles';
+import { APIResponse } from 'types/api/Api.type';
 import UserForm from './components/UserForm';
 import { UserGridResponse } from './types/UserApi.type';
-
-const users: UserProps[] = [
-  {
-    nome: 'Amanda da Costa',
-    cpf: '123.123.123-54',
-    email: 'teste@gmail.com',
-    telefone: '34 998457845',
-    chavePix: '123.123.123-54',
-    senha: '12312321'
-  },
-  {
-    nome: 'Lucas Gomes',
-    cpf: '123.123.123-54',
-    email: 'teste@gmail.com',
-    telefone: '34 998457845',
-    chavePix: '123.123.123-54',
-    senha: '12312321'
-  }
-];
 
 const userCountList = [
   { label: 'Usários Cadastrados', value: 245 },
@@ -43,17 +25,23 @@ const userCountList = [
 ];
 
 export const User = () => {
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
+  const limit = searchParams.get('limit')
+    ? Number(searchParams.get('limit'))
+    : 10;
   const [open, setOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState(ModalTypeEnum.INSERT);
 
-  const { data, isLoading } = useQuery<UserGridResponse>({
-    queryKey: ['get-users'],
+  const { data: userResponse, isLoading } = useQuery<UserGridResponse>({
+    queryKey: ['get-users', page, limit],
     queryFn: async () => {
-      const response: UserGridResponse = await api.get(
-        '/users?page=1&limit=10'
+      const response: APIResponse = await api.get(
+        `/users?page=${page}&limit=${limit}`
       );
-      return response;
-    }
+      return response.data;
+    },
+    placeholderData: keepPreviousData
   });
 
   const handleOpen = (modalType: number) => {
@@ -73,9 +61,12 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userGridResponseData={data?.data}
+            userGridResponseData={userResponse?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
+            isLoading={isLoading}
+            page={page}
+            limit={limit}
           />
         </>
       )
@@ -87,9 +78,12 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userGridResponseData={data?.data}
+            userGridResponseData={userResponse?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
+            isLoading={isLoading}
+            page={page}
+            limit={limit}
           />
         </>
       )
@@ -101,9 +95,12 @@ export const User = () => {
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
           <UserAccordion
-            userGridResponseData={data?.data}
+            userGridResponseData={userResponse?.data}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
+            isLoading={isLoading}
+            page={page}
+            limit={limit}
           />
         </>
       )

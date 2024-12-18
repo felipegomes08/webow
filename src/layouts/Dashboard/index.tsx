@@ -13,14 +13,14 @@ import { layoutPadding, sidebarWidth } from 'theme/globalStyles';
 import theme from 'theme/theme';
 
 const Dashboard = (_: { disableCustomTheme?: boolean }) => {
-  const { authenticated, signOut } = useContext(AuthContext);
+  const { authenticated, signOut, loading } = useContext(AuthContext);
   const location = useLocation();
   const activePath = useActivePath(location);
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    if (!authenticated) {
+    if (!loading && !authenticated) {
       signOut();
       navigate('/');
     }

@@ -1,7 +1,8 @@
 import PersonIcon from '@mui/icons-material/Person';
-import { Stack, Typography } from '@mui/material';
+import { CircularProgress, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
+import Pagination from 'components/Pagination';
 import { UserAccordionProps } from 'pages/User/components/UserAccordion/UserAccordion.type';
 import { useState } from 'react';
 import theme from 'theme/theme';
@@ -9,11 +10,15 @@ import theme from 'theme/theme';
 const UserAccordion = ({
   userGridResponseData,
   deleteCallback,
-  editCallback
+  editCallback,
+  isLoading,
+  page,
+  limit
 }: UserAccordionProps) => {
+  if (isLoading) return <CircularProgress />;
   return (
     <>
-      {userGridResponseData?.users.map(
+      {userGridResponseData?.users?.map(
         ({ name, cpf, email, phone, pixKey, userType }, index) => {
           const [expanded, setExpanded] = useState(false);
 
@@ -85,6 +90,13 @@ const UserAccordion = ({
             />
           );
         }
+      )}
+      {userGridResponseData && (
+        <Pagination
+          page={page}
+          total={userGridResponseData.total}
+          limit={limit}
+        />
       )}
     </>
   );
