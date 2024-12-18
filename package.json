@@ -26,6 +26,7 @@
     "apexcharts": "^3.54.1",
     "axios": "^1.7.9",
     "countup.js": "^2.8.0",
+    "nookies": "^2.5.2",
     "react": "^18.3.1",
     "react-apexcharts": "^1.4.4",
     "react-dom": "^18.3.1",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@types/cookie": "^0.6.0",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",

@@ -1,3 +1,4 @@
+import { setCookie } from 'nookies';
 import { LoginResponse } from 'pages/Login/types/Login.type';
 import { createContext, useEffect, useState } from 'react';
 import api from 'services/api';
@@ -31,6 +32,9 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const res = await loginApi(cpf, password)
       .then((response: LoginResponse) => {
         if (response.success) {
+          setCookie(undefined, 'webow.accessToken', response.data.accessToken, {
+            maxAge: 60 * 60 * 1
+          });
           localStorage.setItem('accessToken', response.data.accessToken);
           localStorage.setItem('currentUserName', response.data.name);
           api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
