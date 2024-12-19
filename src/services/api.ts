@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { parseCookies, setCookie } from 'nookies';
+
+const { 'webow.token': accessToken } = parseCookies();
 
 const api = axios.create({
   baseURL: 'https://webow-backend.onrender.com/api',
@@ -9,7 +12,6 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -23,13 +25,13 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
-        const token = localStorage.getItem('accessToken');
         const { data } = await axios.post('/auth/refresh-token', {
-          token
+          accessToken
         });
 
-        localStorage.setItem('accessToken', data.accessToken);
-
+        setCookie(undefined, 'webow.accessToken', data.accessToken, {
+          maxAge: 60 * 60 * 1
+        });
         error.config.headers.Authorization = `Bearer ${data.accessToken}`;
         return api.request(error.config);
       } catch (refreshError) {

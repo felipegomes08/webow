@@ -1,3 +1,4 @@
+import { UserResponse } from 'pages/User/types/UserApi.type';
 import { z } from 'zod';
 
 export const loginSchema = z.object({
@@ -5,7 +6,7 @@ export const loginSchema = z.object({
     .string()
     .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
     .min(14, 'CPF inválido')
-    .transform(cpf => cpf.replace(/[^\d]/g, '')),
+    .transform((cpf) => cpf.replace(/[^\d]/g, '')),
   password: z
     .string()
     .min(8, 'A senha deve ter no mínimo 8 caracteres')
@@ -18,39 +19,7 @@ export const loginSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>;
 
 export interface LoginResponse {
-  data: {
-    id: string;
-    name: string;
-    cpf: string;
-    email: string;
-    phone: string;
-    pixKey: string;
-    password: string;
-    balance: number;
-    createdAt: string;
-    updatedAt: string;
-    uf: string;
-    accessToken: string;
-    accountType: {
-      id: string;
-      name: string;
-      label: string;
-    };
-    accountTypeId: string;
-    affiliateId: string | null;
-    status: {
-      id: string;
-      name: string;
-      label: string;
-    };
-    statusId: string;
-    userType: {
-      id: string;
-      name: string;
-      label: string;
-    };
-    userTypeId: string;
-  },
-  message: string,
-  success: boolean
+  data: UserResponse;
+  message: string;
+  success: boolean;
 }

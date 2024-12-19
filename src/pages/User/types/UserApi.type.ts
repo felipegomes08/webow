@@ -13,21 +13,22 @@ export interface UserResponse {
   id: string;
   name: string;
   cpf: string;
-  phone: string;
   email: string;
-  uf: string;
+  phone: string;
   pixKey: string;
-  affiliateId: string;
-  affiliate: Affiliate;
-  accountTypeId: string;
-  accountType: AccountType;
-  userTypeId: string;
-  userType: UserType;
-  statusId: string;
-  status: Status;
+  password: string;
   balance: number;
   createdAt: string;
   updatedAt: string;
+  uf: string;
+  accessToken: string;
+  accountType: AccountType;
+  accountTypeId: string;
+  affiliateId: string | null;
+  status: Status;
+  statusId: string;
+  userType: UserType;
+  userTypeId: string;
 }
 
 export interface Affiliate {

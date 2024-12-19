@@ -12,7 +12,10 @@ export const Login = () => {
   useEffect(() => {
     setLoading(true);
     if (authenticated) navigate('/app/home');
-    else signOut();
+    else {
+      signOut();
+      navigate('/');
+    }
     setLoading(false);
   }, [authenticated]);
 
