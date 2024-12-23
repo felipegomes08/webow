@@ -12,10 +12,8 @@ export const Login = () => {
   useEffect(() => {
     setLoading(true);
     if (authenticated) navigate('/app/home');
-    else {
-      signOut();
-      navigate('/');
-    }
+    else signOut();
+
     setLoading(false);
   }, [authenticated]);
 

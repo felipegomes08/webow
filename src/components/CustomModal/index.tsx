@@ -23,7 +23,7 @@ const CustomModal = ({
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: width || 400,
+          width: width || 600,
           bgcolor: grey[50],
           border: 'none',
           borderRadius: theme.shape.borderRadius,

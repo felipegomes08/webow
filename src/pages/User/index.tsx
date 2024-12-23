@@ -110,7 +110,7 @@ export const User = () => {
     <>
       <CustomModal isOpen={open} onClose={handleClose}>
         <Box width={'100%'}>
-          <Stack direction={'row'} spacing={2}>
+          <Stack direction={'row'} spacing={2} mb={2}>
             <PersonIcon sx={{ color: grey[900], fontSize: '25px' }} />
             <Typography id="modal-modal-title" variant="h1">
               {modalType === ModalTypeEnum.INSERT

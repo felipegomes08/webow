@@ -1,11 +1,14 @@
 import Box from '@mui/material/Box';
-import { useEffect } from 'react';
+import { AuthContext } from 'context/AuthContext';
+import { useContext, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+  const { authenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   useEffect(() => {
-    navigate('/login');
+    if (authenticated) navigate('/app');
+    else navigate('/login');
   }, []);
   return (
     <Box

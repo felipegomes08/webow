@@ -3,7 +3,6 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import {
   Avatar,
   Box,
-  CircularProgress,
   Divider,
   dividerClasses,
   listClasses,
@@ -51,23 +50,19 @@ const HeaderAvatar = () => {
         }}
       >
         <Box display={'flex'} alignItems={'center'}>
-          {user?.name ? (
-            <Avatar
-              {...stringAvatar(user.name)}
-              src="/broken-image.jpg"
-              sx={{
-                borderRadius: theme.shape.borderRadius,
-                width: 34,
-                height: 34,
-                bgcolor: grey[300],
-                color: grey[900],
-                fontSize: '11px',
-                fontWeight: 'bold'
-              }}
-            />
-          ) : (
-            <CircularProgress />
-          )}
+          <Avatar
+            {...stringAvatar(user?.name ? user.name : '-')}
+            src="/broken-image.jpg"
+            sx={{
+              borderRadius: theme.shape.borderRadius,
+              width: 34,
+              height: 34,
+              bgcolor: grey[300],
+              color: grey[900],
+              fontSize: '11px',
+              fontWeight: 'bold'
+            }}
+          />
           <KeyboardArrowDownIcon sx={{ color: grey[900], fontSize: '18px' }} />
         </Box>
       </MenuButton>

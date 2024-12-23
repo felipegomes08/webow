@@ -1,4 +1,4 @@
-import { Drawer } from '@mui/material';
+import { CircularProgress, Drawer } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import { alpha } from '@mui/material/styles';
@@ -24,7 +24,7 @@ const Dashboard = (_: { disableCustomTheme?: boolean }) => {
       signOut();
       navigate('/');
     }
-  }, [authenticated]);
+  }, [authenticated, loading]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -33,6 +33,19 @@ const Dashboard = (_: { disableCustomTheme?: boolean }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  if (loading)
+    return (
+      <Box
+        width={'100vw'}
+        height={'100vh'}
+        justifyContent={'center'}
+        display={'flex'}
+        alignItems={'center'}
+      >
+        <CircularProgress />
+      </Box>
+    );
   return (
     <Box
       width={'100vw'}

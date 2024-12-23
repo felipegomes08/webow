@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { parseCookies, setCookie } from 'nookies';
-
-const { 'webow.token': accessToken } = parseCookies();
+import { APIResponse } from 'types/api/Api.type';
 
 const api = axios.create({
   baseURL: 'https://webow-backend.onrender.com/api',
@@ -12,6 +11,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const { 'webow.accessToken': accessToken } = parseCookies();
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -25,14 +25,15 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       try {
-        const { data } = await axios.post('/auth/refresh-token', {
-          accessToken
+        const { 'webow.accessToken': accessToken } = parseCookies();
+        const response: APIResponse = await axios.post('/auth/refresh-token', {
+          token: accessToken
         });
 
-        setCookie(undefined, 'webow.accessToken', data.accessToken, {
+        setCookie(undefined, 'webow.accessToken', response.data.accessToken, {
           maxAge: 60 * 60 * 1
         });
-        error.config.headers.Authorization = `Bearer ${data.accessToken}`;
+        error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
         return api.request(error.config);
       } catch (refreshError) {
         console.error('Não foi possível renovar o token', refreshError);

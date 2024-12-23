@@ -74,3 +74,18 @@ export interface Status {
   name: string;
   label: string;
 }
+
+export interface UserPostRequest {
+  name: string;
+  cpf: string;
+  phone: string;
+  email: string;
+  uf: string;
+  pixKey: string;
+  password: string;
+  affiliateId?: string;
+  accountTypeId: string;
+  userTypeId: string;
+  statusId: string;
+  balance: number;
+}

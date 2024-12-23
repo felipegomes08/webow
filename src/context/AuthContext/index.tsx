@@ -1,10 +1,11 @@
-import { setCookie } from 'nookies';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
 import { LoginResponse } from 'pages/Login/types/Login.type';
 import { UserResponse } from 'pages/User/types/UserApi.type';
 import { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from 'services/api';
+import { getApi } from 'services/apiService';
 import { loginApi } from 'services/authService';
+import { APIResponse } from 'types/api/Api.type';
 import { AuthContextProviderProps, AuthContextType } from './AuthContext.type';
 
 const AuthContext = createContext({} as AuthContextType);
@@ -12,30 +13,40 @@ const AuthContext = createContext({} as AuthContextType);
 const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState<UserResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      setAuthenticated(true);
-    } else {
-      signOut();
-    }
-    setLoading(false);
+    const validateData = async () => {
+      setLoading(true);
+      const { 'webow.accessToken': accessToken } = parseCookies();
+      const { 'webow.currentUserId': currentUserId } = parseCookies();
+      if (accessToken && currentUserId) {
+        const response: APIResponse = await getApi({
+          url: `/users/${currentUserId}`
+        });
+        if (response.success) setUser(response.data);
+        setAuthenticated(true);
+      } else {
+        signOut();
+      }
+      setLoading(false);
+    };
+
+    validateData();
   }, []);
 
   const signIn = async (cpf: string, password: string) => {
     const res = await loginApi(cpf, password)
       .then((response: LoginResponse) => {
         if (response.success) {
+          api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
           setCookie(undefined, 'webow.accessToken', response.data.accessToken, {
-            maxAge: 60 * 60 * 1
+            maxAge: 60 * 15 //15 minutes
+          });
+          setCookie(undefined, 'webow.currentUserId', response.data.id, {
+            maxAge: 60 * 15 //15 minutes
           });
           setUser(response.data);
-          // localStorage.setItem('accessToken', response.data.accessToken);
-          // localStorage.setItem('currentUserName', response.data.name);
           setAuthenticated(true);
           return response;
         }
@@ -46,7 +57,9 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   const signOut = async () => {
     setAuthenticated(false);
-    localStorage.removeItem('accessToken');
+    destroyCookie(undefined, 'webow.accessToken');
+    destroyCookie(undefined, 'webow.currentUserId');
+    setUser(null);
   };
 
   return (
