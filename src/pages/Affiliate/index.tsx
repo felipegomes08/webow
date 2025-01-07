@@ -8,26 +8,24 @@ import CustomModal from 'components/CustomModal';
 import { ModalTypeEnum } from 'components/CustomModal/CustomModal.enum';
 import CustomTabs from 'components/Tabs';
 import { ListTabsProps } from 'components/Tabs/CustomTabs.type';
-import UserAccordion from 'pages/User/components/UserAccordion';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { layoutPadding } from 'theme/globalStyles';
 import { APIResponse } from 'types/api/Api.type';
-import UserForm from './components/UserForm';
-import { deleteUser, getUsers } from './services/userServices';
-import { UserGridResponseData } from './types/UserApi.type';
+import AffiliateAccordion from './components/AffiliateAccordion';
+import AffiliateForm from './components/AffiliateForm';
+import { deleteAffiliate, getAffiliates } from './services/affiliateServices';
+import { AffiliateGridResponse } from './types/AffiliateApi.type';
 
-const userCountList = [
-  { label: 'Usários Cadastrados', value: 245 },
-  { label: 'Usuários Ativos', value: 205 },
-  { label: 'Usuários Banidos', value: 40 },
-  { label: 'Usuários Online', value: 69, color: 'primary' }
+const affiliateCountList = [
+  { label: 'Affiliados Cadastrados', value: 245 },
+  { label: 'Receita Total', value: 205 }
 ];
 
-export const User = () => {
+export const Affiliate = () => {
   const [searchParams] = useSearchParams();
-  const [userId, setUserId] = React.useState<string>('');
+  const [affiliateId, setAffiliateId] = React.useState<string>('');
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const limit = searchParams.get('limit')
     ? Number(searchParams.get('limit'))
@@ -35,40 +33,13 @@ export const User = () => {
   const [open, setOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState(ModalTypeEnum.INSERT);
 
-  const { data: userResponse, isLoading } = useQuery<UserGridResponseData>({
-    queryKey: ['get-users', page, limit],
-    queryFn: async () => {
-      const response: APIResponse = await getUsers({
-        page,
-        limit
-      });
-      return response.data;
-    },
-    placeholderData: keepPreviousData
-  });
-
-  const { data: userBlockResponse, isLoading: isUserBlockLoading } =
-    useQuery<UserGridResponseData>({
-      queryKey: ['get-banned-users', page, limit],
+  const { data: affiliateResponse, isLoading } =
+    useQuery<AffiliateGridResponse>({
+      queryKey: ['get-affiliates', page, limit],
       queryFn: async () => {
-        const response: APIResponse = await getUsers({
+        const response: APIResponse = await getAffiliates({
           page,
-          limit,
-          status: 'banned'
-        });
-        return response.data;
-      },
-      placeholderData: keepPreviousData
-    });
-
-  const { data: userOnlineResponse, isLoading: isUserOnlineLoading } =
-    useQuery<UserGridResponseData>({
-      queryKey: ['get-online-users', page, limit],
-      queryFn: async () => {
-        const response: APIResponse = await getUsers({
-          page,
-          limit,
-          status: 'online'
+          limit
         });
         return response.data;
       },
@@ -84,14 +55,14 @@ export const User = () => {
     setOpen(false);
   };
 
-  const handleDelete = async (userId: string) => {
-    const response = await deleteUser(userId);
+  const handleDelete = async (affiliateId: string) => {
+    const response = await deleteAffiliate(affiliateId);
     if (response.success) {
-      toast.success('Usuário excluído com sucesso!', {
+      toast.success('Afiliado excluído com sucesso!', {
         position: 'top-center'
       });
     } else {
-      toast.error('Erro ao excluir usuário!', {
+      toast.error('Erro ao excluir afiliado!', {
         position: 'top-center'
       });
     }
@@ -100,53 +71,19 @@ export const User = () => {
 
   const listTabs: ListTabsProps[] = [
     {
-      label: 'Usuários',
+      label: 'Afiliados',
       value: 'main',
       children: (
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <UserAccordion
-            userGridResponseData={userResponse}
+          <AffiliateAccordion
+            affiliateGridResponseData={affiliateResponse?.data}
             deleteCallback={(id) => {
-              setUserId(id);
+              setAffiliateId(id);
               handleOpen(ModalTypeEnum.DELETE);
             }}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
             isLoading={isLoading}
-            page={page}
-            limit={limit}
-          />
-        </>
-      )
-    },
-    {
-      label: 'Banidos',
-      value: 'ban',
-      children: (
-        <>
-          <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <UserAccordion
-            userGridResponseData={userBlockResponse}
-            deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
-            editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
-            isLoading={isUserBlockLoading}
-            page={page}
-            limit={limit}
-          />
-        </>
-      )
-    },
-    {
-      label: 'Online',
-      value: 'online',
-      children: (
-        <>
-          <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <UserAccordion
-            userGridResponseData={userOnlineResponse}
-            deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
-            editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
-            isLoading={isUserOnlineLoading}
             page={page}
             limit={limit}
           />
@@ -162,9 +99,9 @@ export const User = () => {
             <PersonIcon sx={{ color: grey[900], fontSize: '25px' }} />
             <Typography id="modal-modal-title" variant="h1">
               {modalType === ModalTypeEnum.INSERT
-                ? 'Novo Usuário'
+                ? 'Novo Afiliado'
                 : modalType === ModalTypeEnum.UPDATE
-                  ? 'Atualizar Usuário'
+                  ? 'Atualizar Afiliado'
                   : 'Corfirmar exclusão'}
             </Typography>
           </Stack>
@@ -172,14 +109,14 @@ export const User = () => {
             {modalType === ModalTypeEnum.DELETE ? (
               <Box mt={2}>
                 <Typography variant="h3">
-                  Confirma a exclusão do usuário?
+                  Confirma a exclusão do afiliado?
                 </Typography>
                 <Box mt={2} display={'flex'} justifyContent={'flex-end'}>
                   <Button
                     variant="contained"
                     onClick={() => {
                       if (modalType === ModalTypeEnum.DELETE)
-                        handleDelete(userId);
+                        handleDelete(affiliateId);
                     }}
                   >
                     Confirmar
@@ -188,21 +125,17 @@ export const User = () => {
                 </Box>
               </Box>
             ) : (
-              <UserForm />
+              <AffiliateForm />
             )}
           </Box>
         </Box>
       </CustomModal>
       <Stack direction="row" spacing={2} mb={layoutPadding}>
-        {userCountList.map((count) => (
-          <CountCard
-            label={count.label}
-            value={count.value}
-            color={count.color}
-          />
+        {affiliateCountList.map((count) => (
+          <CountCard label={count.label} value={count.value} />
         ))}
       </Stack>
-      <CustomTabs listTabs={listTabs} mainRoute="/app/users" />
+      <CustomTabs listTabs={listTabs} mainRoute="/app/affiliates" />
     </>
   );
 };

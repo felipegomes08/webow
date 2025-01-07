@@ -3,35 +3,34 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
 import Pagination from 'components/Pagination';
-import { UserAccordionProps } from 'pages/User/components/UserAccordion/UserAccordion.type';
 import { useState } from 'react';
 import theme from 'theme/theme';
+import { AffiliateAccordionProps } from './AffiliateAccordion.type';
 
-const UserAccordion = ({
-  userGridResponseData,
+const AffiliateAccordion = ({
+  affiliateGridResponseData,
   deleteCallback,
   editCallback,
   isLoading,
   page,
   limit
-}: UserAccordionProps) => {
-  const [expanded, setExpanded] = useState<string[]>([]);
-
+}: AffiliateAccordionProps) => {
   if (isLoading) return <CircularProgress />;
   return (
     <>
-      {userGridResponseData?.users?.map(
-        ({ id, name, cpf, email, phone, pixKey, userType }, index) => {
+      {affiliateGridResponseData?.affiliates?.map(
+        ({ id, name, cpf, email, phone, pixKey, affiliateType }, index) => {
+          const [expanded, setExpanded] = useState(false);
+
           const toggleExpand = (
             _: React.SyntheticEvent,
             isExpanded: boolean
           ) => {
-            if (isExpanded) setExpanded((prevArgs) => [...prevArgs, id]);
-            else setExpanded(expanded.filter((x) => x !== id));
+            setExpanded(isExpanded);
           };
           return (
             <GridAccordion
-              expanded={expanded.includes(id)}
+              expanded={expanded}
               index={index}
               icon={<PersonIcon sx={{ color: grey[900] }} />}
               titleContent={
@@ -80,7 +79,7 @@ const UserAccordion = ({
                       {pixKey}
                     </Typography>
                     <Typography variant="h3" fontWeight={'normal'}>
-                      {userType.name}
+                      {affiliateType.name}
                     </Typography>
                   </Stack>
                 </Stack>
@@ -92,10 +91,10 @@ const UserAccordion = ({
           );
         }
       )}
-      {userGridResponseData && (
+      {affiliateGridResponseData && (
         <Pagination
           page={page}
-          total={userGridResponseData.total}
+          total={affiliateGridResponseData.total}
           limit={limit}
         />
       )}
@@ -103,4 +102,4 @@ const UserAccordion = ({
   );
 };
 
-export default UserAccordion;
+export default AffiliateAccordion;

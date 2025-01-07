@@ -1,3 +1,4 @@
+import { UserType } from 'enums/enums';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 import { LoginResponse } from 'pages/Login/types/Login.type';
 import { UserResponse } from 'pages/User/types/UserApi.type';
@@ -18,9 +19,10 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
   useEffect(() => {
     const validateData = async () => {
       setLoading(true);
-      const { 'webow.accessToken': accessToken } = parseCookies();
-      const { 'webow.currentUserId': currentUserId } = parseCookies();
-      if (accessToken && currentUserId) {
+      const { 'webow.refreshToken': refreshToken } = parseCookies();
+      const accessToken = localStorage.getItem('webow.accessToken');
+      const currentUserId = localStorage.getItem('webow.currentUserId');
+      if (accessToken && currentUserId && refreshToken) {
         const response: APIResponse = await getApi({
           url: `/users/${currentUserId}`
         });
@@ -39,13 +41,26 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
     const res = await loginApi(cpf, password)
       .then((response: LoginResponse) => {
         if (response.success) {
+          if (response.data.userTypeId !== UserType.ADMINISTRATOR)
+            return {
+              success: false,
+              message: 'Você não possui permissão para acessar a plataforma'
+            };
           api.defaults.headers.Authorization = `Bearer ${response.data.accessToken}`;
-          setCookie(undefined, 'webow.accessToken', response.data.accessToken, {
-            maxAge: 60 * 15 //15 minutes
-          });
-          setCookie(undefined, 'webow.currentUserId', response.data.id, {
-            maxAge: 60 * 15 //15 minutes
-          });
+          localStorage.setItem('webow.accessToken', response.data.accessToken);
+
+          setCookie(
+            undefined,
+            'webow.refreshToken',
+            response.data.refreshToken,
+            {
+              maxAge: 30 * 24 * 60 * 60, // 30 days
+              path: '/',
+              secure: true,
+              sameSite: 'strict'
+            }
+          );
+          localStorage.setItem('webow.currentUserId', response.data.id);
           setUser(response.data);
           setAuthenticated(true);
           return response;
@@ -57,8 +72,11 @@ const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
 
   const signOut = async () => {
     setAuthenticated(false);
-    destroyCookie(undefined, 'webow.accessToken');
-    destroyCookie(undefined, 'webow.currentUserId');
+    localStorage.removeItem('webow.accessToken');
+    localStorage.removeItem('webow.currentUserId');
+    destroyCookie(null, 'webow.refreshToken', {
+      path: '/'
+    });
     setUser(null);
   };
 

@@ -1,31 +1,30 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, MenuItem } from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
-import SelectData from 'components/SelectData';
 import useMetadata from 'hooks/useMetadata';
-import { createUser } from 'pages/User/services/userServices';
-import { UserSchema, userSchema } from 'pages/User/types/User.type';
-import { UserResponse } from 'pages/User/types/UserApi.type';
+import { createAffiliate } from 'pages/Affiliate/services/affiliateServices';
+import {
+  AffiliateSchema,
+  affiliateSchema
+} from 'pages/Affiliate/types/Affiliate.type';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
 import { Uf } from 'types/metadata';
 
-const UserForm = () => {
+const AffiliateForm = () => {
   const [ufs, setUfs] = useState<Uf[]>([]);
   const { userTypes, accountTypes, userStatus } = useMetadata();
-  const queryClient = useQueryClient();
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<UserSchema>({
-    resolver: zodResolver(userSchema)
+  } = useForm<AffiliateSchema>({
+    resolver: zodResolver(affiliateSchema)
   });
 
   useEffect(() => {
@@ -38,8 +37,8 @@ const UserForm = () => {
     fetchUfs();
   }, []);
 
-  const handleSaveUser = async (user: UserSchema) => {
-    const result = await createUser(user);
+  const handleSaveAffiliate = async (affiliate: AffiliateSchema) => {
+    const result = await createAffiliate(affiliate);
     if (result.success) {
       toast.success('Usuário cadastrado com sucesso!', {
         position: 'top-center'
@@ -51,19 +50,11 @@ const UserForm = () => {
     }
   };
 
-  const { mutateAsync: createUserFn } = useMutation({
-    mutationFn: handleSaveUser,
-    onSuccess: (_, variables) => {
-      const cached = queryClient.getQueryData<UserResponse[]>(['get-users']);
-      queryClient.setQueryData(['get-users'], (data: UserResponse[]) => {
-        return [variables, ...data];
-      });
-    }
-  });
+  console.log(errors);
 
   return (
     <form
-      onSubmit={handleSubmit((user) => createUserFn(user))}
+      onSubmit={handleSubmit(handleSaveAffiliate)}
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -78,6 +69,8 @@ const UserForm = () => {
           helperText={errors.name && errors.name.message}
           register={register('name')}
         />
+      </Box>
+      <Box width={'100%'} display="flex" gap={1}>
         <Controller
           name="cpf"
           control={control}
@@ -101,8 +94,6 @@ const UserForm = () => {
             </ReactInputMask>
           )}
         />
-      </Box>
-      <Box width={'100%'} display="flex" gap={1}>
         <Controller
           name="phone"
           control={control}
@@ -126,18 +117,6 @@ const UserForm = () => {
             </ReactInputMask>
           )}
         />
-        <SelectData
-          id="uf-select"
-          fieldError={errors.uf}
-          register={register('uf')}
-          label="UF"
-        >
-          {ufs?.map((x) => (
-            <MenuItem key={x.sigla} value={x.sigla}>
-              {x.sigla}
-            </MenuItem>
-          ))}
-        </SelectData>
       </Box>
       <Box width={'100%'} display="flex" gap={1}>
         <InputTextField
@@ -160,59 +139,20 @@ const UserForm = () => {
           helperText={errors.pixKey && errors.pixKey.message}
           register={register('pixKey')}
         />
-        <SelectData
-          id="account-select"
-          label="Tipo de Conta"
-          fieldError={errors.accountType}
-          register={register('accountType')}
-        >
-          {accountTypes?.map((x) => (
-            <MenuItem key={`${x.id}-${x.name}`} value={x.name}>
-              {x.label}
-            </MenuItem>
-          ))}
-        </SelectData>
-      </Box>
-      <Box width={'100%'} display="flex" gap={1}>
-        <SelectData
-          id="user-select"
-          label="Tipo de Usuário"
-          fieldError={errors.userType}
-          register={register('userType')}
-        >
-          {userTypes?.map((x) => (
-            <MenuItem key={`${x.id}-${x.name}`} value={x.name}>
-              {x.label}
-            </MenuItem>
-          ))}
-        </SelectData>
-        <SelectData
-          id="status-select"
-          label="Status"
-          fieldError={errors.status}
-          register={register('status')}
-        >
-          {userStatus?.map((x) => (
-            <MenuItem key={`${x.id}-${x.name}`} value={x.name}>
-              {x.label}
-            </MenuItem>
-          ))}
-        </SelectData>
       </Box>
       <Box width={'100%'} display="flex" gap={1}>
         <InputTextField
-          label="Saldo"
-          type="number"
-          error={!!errors.balance}
-          helperText={errors.balance && errors.balance.message}
-          register={register('balance')}
+          label="Código"
+          error={!!errors.code}
+          helperText={errors.code && errors.code.message}
+          register={register('code')}
           fullWidth
         />
         <InputTextField
-          label="ID do Afiliado"
-          error={!!errors.affiliateId}
-          helperText={errors.affiliateId && errors.affiliateId.message}
-          register={register('affiliateId')}
+          label="Link"
+          error={!!errors.link}
+          helperText={errors.link && errors.link.message}
+          register={register('link')}
           fullWidth
         />
       </Box>
@@ -221,4 +161,4 @@ const UserForm = () => {
   );
 };
 
-export default UserForm;
+export default AffiliateForm;

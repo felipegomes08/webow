@@ -1,37 +1,40 @@
 import { deleteApi, getApi, postApi, putApi } from 'services/apiService';
 import { APIResponse } from 'types/api/Api.type';
 import {
-  UserPostRequest,
-  UserPutRequest,
-  UsersGetRequest
-} from '../types/UserApi.type';
+  AffiliatePostRequest,
+  AffiliatePutRequest,
+  AffiliatesGetRequest
+} from '../types/AffiliateApi.type';
 
-export const createUser = async (user: UserPostRequest) => {
-  const response: APIResponse = await postApi({ url: '/users', data: user });
-
-  return response;
-};
-
-export const getUser = async (id: string) => {
-  const response: APIResponse = await getApi({ url: `/users/${id}` });
+export const createAffiliate = async (affiliate: AffiliatePostRequest) => {
+  const response: APIResponse = await postApi({
+    url: '/affiliates',
+    data: affiliate
+  });
 
   return response;
 };
 
-export const getUsers = async ({
+export const getAffiliate = async (id: string) => {
+  const response: APIResponse = await getApi({ url: `/affiliates/${id}` });
+
+  return response;
+};
+
+export const getAffiliates = async ({
   page,
   limit,
   id,
   cpf,
   email,
   pixKey,
-  userType,
+  affiliateType,
   accountType,
   status,
   affiliateCode,
   createdAt,
   balance
-}: UsersGetRequest) => {
+}: AffiliatesGetRequest) => {
   const queryParams = new URLSearchParams();
 
   if (page) queryParams.append('page', page.toString());
@@ -40,7 +43,7 @@ export const getUsers = async ({
   if (cpf) queryParams.append('cpf', cpf);
   if (email) queryParams.append('email', email);
   if (pixKey) queryParams.append('pixKey', pixKey);
-  if (userType) queryParams.append('userType', userType);
+  if (affiliateType) queryParams.append('affiliateType', affiliateType);
   if (accountType) queryParams.append('accountType', accountType);
   if (status) queryParams.append('status', status);
   if (affiliateCode) queryParams.append('affiliateCode', affiliateCode);
@@ -59,22 +62,27 @@ export const getUsers = async ({
     if (balance.gte) queryParams.append('balance.gte', balance.gte.toString());
   }
 
-  const response: APIResponse = await getApi({ url: `/users?${queryParams}` });
-
-  return response;
-};
-
-export const updateUser = async (id: string, user: UserPutRequest) => {
-  const response: APIResponse = await putApi({
-    url: `/users/${id}`,
-    data: user
+  const response: APIResponse = await getApi({
+    url: `/affiliates?${queryParams}`
   });
 
   return response;
 };
 
-export const deleteUser = async (id: string) => {
-  const response: APIResponse = await deleteApi({ url: `/users/${id}` });
+export const updateAffiliate = async (
+  id: string,
+  affiliate: AffiliatePutRequest
+) => {
+  const response: APIResponse = await putApi({
+    url: `/affiliates/${id}`,
+    data: affiliate
+  });
+
+  return response;
+};
+
+export const deleteAffiliate = async (id: string) => {
+  const response: APIResponse = await deleteApi({ url: `/affiliates/${id}` });
 
   return response;
 };

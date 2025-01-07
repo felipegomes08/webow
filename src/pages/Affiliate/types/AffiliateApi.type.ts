@@ -1,15 +1,15 @@
-export interface UserGridResponse {
+export interface AffiliateGridResponse {
   success: boolean;
-  data: UserGridResponseData;
+  data: AffiliateGridResponseData;
 }
 
-export interface UserGridResponseData {
-  users: UserResponse[];
+export interface AffiliateGridResponseData {
+  affiliates: AffiliateResponse[];
   page: number;
   total: number;
 }
 
-export interface UserResponse {
+export interface AffiliateResponse {
   id: string;
   name: string;
   cpf: string;
@@ -28,8 +28,8 @@ export interface UserResponse {
   affiliateId: string | null;
   status: Status;
   statusId: string;
-  userType: UserType;
-  userTypeId: string;
+  affiliateType: AffiliateType;
+  affiliateTypeId: string;
 }
 
 export interface Affiliate {
@@ -45,8 +45,8 @@ export interface Affiliate {
   affiliate: Affiliate;
   accountTypeId: string;
   accountType: AccountType;
-  userTypeId: string;
-  userType: UserType;
+  affiliateTypeId: string;
+  affiliateType: AffiliateType;
   statusId: string;
   status: Status;
   balance: number;
@@ -64,7 +64,7 @@ export interface AccountType {
   label: string;
 }
 
-export interface UserType {
+export interface AffiliateType {
   id: string;
   name: string;
   label: string;
@@ -76,7 +76,18 @@ export interface Status {
   label: string;
 }
 
-export interface UserPostRequest {
+export interface AffiliatePostRequest {
+  name: string;
+  cpf: string;
+  phone: string;
+  email: string;
+  pixKey: string;
+  password: string;
+  code: string;
+  link: string;
+}
+
+export interface AffiliatePutRequest {
   name: string;
   cpf: string;
   phone: string;
@@ -86,34 +97,19 @@ export interface UserPostRequest {
   password: string;
   affiliateId?: string | null;
   accountType: string;
-  userType: string;
+  affiliateType: string;
   status: string;
   balance?: number | null;
 }
 
-export interface UserPutRequest {
-  name: string;
-  cpf: string;
-  phone: string;
-  email: string;
-  uf: string;
-  pixKey: string;
-  password: string;
-  affiliateId?: string | null;
-  accountType: string;
-  userType: string;
-  status: string;
-  balance?: number | null;
-}
-
-export interface UsersGetRequest {
+export interface AffiliatesGetRequest {
   page: number;
   limit: number;
   id?: string;
   cpf?: string;
   email?: string;
   pixKey?: string;
-  userType?: string;
+  affiliateType?: string;
   accountType?: string;
   status?: string;
   affiliateCode?: string;

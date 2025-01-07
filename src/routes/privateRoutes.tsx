@@ -6,7 +6,7 @@ import MarketingIcon from 'assets/menuIcons/MarketingIcon.svg';
 import SupportIcon from 'assets/menuIcons/SupportIcon.svg';
 import SystemIcon from 'assets/menuIcons/SystemIcon.svg';
 import UsersIcon from 'assets/menuIcons/UsersIcon.svg';
-import { Affiliates } from 'pages/Affiliates';
+import { Affiliate } from 'pages/Affiliate';
 import { Bets } from 'pages/Bets';
 import { Evolution } from 'pages/Evolution';
 import { Home } from 'pages/Home';
@@ -118,7 +118,7 @@ export const privateRoutes = [
   },
   {
     path: 'affiliates',
-    element: <Affiliates />,
+    element: <Affiliate />,
     title: 'Afiliados',
     icon: AffiliatesIcon,
     showSidebar: true,

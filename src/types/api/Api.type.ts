@@ -4,6 +4,7 @@ export interface APIResponse {
   data?: any;
   success: boolean;
   error?: any;
+  message?: string;
 }
 
 export interface GetApiParams {

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export interface UserProps {
+export interface AffiliateProps {
   nome: string;
   cpf: string;
   telefone: string;
@@ -9,7 +9,7 @@ export interface UserProps {
   senha: string;
 }
 
-export const userSchema = z.object({
+export const affiliateSchema = z.object({
   name: z.string().min(1, 'O nome é obrigatório'),
   cpf: z
     .string()
@@ -31,16 +31,9 @@ export const userSchema = z.object({
     .string()
     .regex(/^\(\d{2}\) \d{5}-\d{4}$/, 'Número de telefone inválido')
     .transform((phone) => phone.replace(/[^\d]/g, '')),
-  uf: z.string().min(1, 'UF é obrigatório'),
   pixKey: z.string().min(1, 'A chave PIX é obrigatória'),
-  balance: z
-    .union([z.string(), z.number()])
-    .transform((val) => (typeof val === 'string' ? parseFloat(val) : val))
-    .optional(),
-  affiliateId: z.string().optional(),
-  accountType: z.string().min(1, 'O tipo de conta é obrigatório'),
-  userType: z.string().min(1, 'O tipo de usuário é obrigatório'),
-  status: z.string().min(1, 'O status é obrigatório')
+  code: z.string().min(1, 'O código é obrigatório'),
+  link: z.string().min(1, 'O link é obrigatório')
 });
 
-export type UserSchema = z.infer<typeof userSchema>;
+export type AffiliateSchema = z.infer<typeof affiliateSchema>;
