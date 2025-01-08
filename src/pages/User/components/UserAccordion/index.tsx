@@ -3,6 +3,7 @@ import { CircularProgress, Stack, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
 import Pagination from 'components/Pagination';
+import TextDescription from 'components/TextDescription';
 import { UserAccordionProps } from 'pages/User/components/UserAccordion/UserAccordion.type';
 import { useState } from 'react';
 import theme from 'theme/theme';
@@ -21,7 +22,23 @@ const UserAccordion = ({
   return (
     <>
       {userGridResponseData?.users?.map(
-        ({ id, name, cpf, email, phone, pixKey, userType }, index) => {
+        (
+          {
+            id,
+            name,
+            cpf,
+            email,
+            phone,
+            pixKey,
+            balance,
+            uf,
+            accountType,
+            affiliateId,
+            status,
+            userType
+          },
+          index
+        ) => {
           const toggleExpand = (
             _: React.SyntheticEvent,
             isExpanded: boolean
@@ -56,32 +73,26 @@ const UserAccordion = ({
                   p={2}
                 >
                   <Stack mr={4} spacing={1}>
-                    <Typography variant="h3">Nome: </Typography>
-                    <Typography variant="h3">CPF: </Typography>
-                    <Typography variant="h3">Telefone: </Typography>
-                    <Typography variant="h3">Email: </Typography>
-                    <Typography variant="h3">Chave-Pix: </Typography>
-                    <Typography variant="h3">Tipo: </Typography>
-                  </Stack>
-                  <Stack spacing={1}>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {name}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {cpf}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {email}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {phone}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {pixKey}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {userType.name}
-                    </Typography>
+                    <TextDescription label="Nome:" value={name} />
+                    <TextDescription label="CPF:" value={cpf} />
+                    <TextDescription label="UF:" value={uf} />
+                    <TextDescription label="Telefone:" value={phone} />
+                    <TextDescription label="Email:" value={email} />
+                    <TextDescription label="Chave Pix:" value={pixKey} />
+                    <TextDescription label="Saldo:" value={balance} />
+                    <TextDescription
+                      label="Código de Afiliado:"
+                      value={affiliateId}
+                    />
+                    <TextDescription
+                      label="Tipo de Usuário:"
+                      value={userType.label}
+                    />
+                    <TextDescription
+                      label="Tipo de Conta:"
+                      value={accountType.label}
+                    />
+                    <TextDescription label="Status:" value={status.label} />
                   </Stack>
                 </Stack>
               }

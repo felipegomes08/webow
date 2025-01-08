@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, MenuItem } from '@mui/material';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
@@ -8,14 +8,14 @@ import SelectData from 'components/SelectData';
 import useMetadata from 'hooks/useMetadata';
 import { createUser } from 'pages/User/services/userServices';
 import { UserSchema, userSchema } from 'pages/User/types/User.type';
-import { UserResponse } from 'pages/User/types/UserApi.type';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
 import { Uf } from 'types/metadata';
+import { UserFormProps } from './UserForm.type';
 
-const UserForm = () => {
+const UserForm = ({ onClose }: UserFormProps) => {
   const [ufs, setUfs] = useState<Uf[]>([]);
   const { userTypes, accountTypes, userStatus } = useMetadata();
   const queryClient = useQueryClient();
@@ -41,9 +41,13 @@ const UserForm = () => {
   const handleSaveUser = async (user: UserSchema) => {
     const result = await createUser(user);
     if (result.success) {
+      queryClient.invalidateQueries({ queryKey: ['get-users'] });
+      queryClient.invalidateQueries({ queryKey: ['get-banned-users'] });
+      queryClient.invalidateQueries({ queryKey: ['get-online-users'] });
       toast.success('Usuário cadastrado com sucesso!', {
         position: 'top-center'
       });
+      onClose();
     } else {
       toast.error('Erro ao cadastrar usuário!', {
         position: 'top-center'
@@ -51,19 +55,9 @@ const UserForm = () => {
     }
   };
 
-  const { mutateAsync: createUserFn } = useMutation({
-    mutationFn: handleSaveUser,
-    onSuccess: (_, variables) => {
-      const cached = queryClient.getQueryData<UserResponse[]>(['get-users']);
-      queryClient.setQueryData(['get-users'], (data: UserResponse[]) => {
-        return [variables, ...data];
-      });
-    }
-  });
-
   return (
     <form
-      onSubmit={handleSubmit((user) => createUserFn(user))}
+      onSubmit={handleSubmit(handleSaveUser)}
       style={{
         display: 'flex',
         justifyContent: 'center',

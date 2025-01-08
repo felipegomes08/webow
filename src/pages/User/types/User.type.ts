@@ -10,7 +10,7 @@ export interface UserProps {
 }
 
 export const userSchema = z.object({
-  name: z.string().min(1, 'O nome é obrigatório'),
+  name: z.string().min(4, 'O nome é muito curto'),
   cpf: z
     .string()
     .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')

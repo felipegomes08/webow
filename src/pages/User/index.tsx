@@ -188,7 +188,7 @@ export const User = () => {
                 </Box>
               </Box>
             ) : (
-              <UserForm />
+              <UserForm onClose={handleClose} />
             )}
           </Box>
         </Box>
