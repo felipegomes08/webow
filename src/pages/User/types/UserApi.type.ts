@@ -25,7 +25,7 @@ export interface UserResponse {
   refreshToken: string;
   accountType: AccountType;
   accountTypeId: string;
-  affiliateId: string | null;
+  affiliateId: string | undefined;
   status: Status;
   statusId: string;
   userType: UserType;
@@ -98,7 +98,6 @@ export interface UserPutRequest {
   email: string;
   uf: string;
   pixKey: string;
-  password: string;
   affiliateId?: string | null;
   accountType: string;
   userType: string;

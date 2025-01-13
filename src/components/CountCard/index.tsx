@@ -16,12 +16,12 @@ const CountCard = ({ label, value, color }: CountCardProps) => {
 
   useEffect(() => {
     initCountUp();
-  }, []);
+  }, [value]);
 
   async function initCountUp() {
     const countUpModule = await import('countup.js');
     if (countupRef.current) {
-      countUpAnim = new countUpModule.CountUp(countupRef.current, value);
+      countUpAnim = new countUpModule.CountUp(countupRef.current, value || 0);
       if (!countUpAnim.error) {
         countUpAnim.start();
       } else {

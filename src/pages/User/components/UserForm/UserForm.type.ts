@@ -1,3 +1,6 @@
+import { UserSchema } from 'pages/User/types/User.type';
+
 export interface UserFormProps {
-  onClose: () => void;
+  onCreate: (user: UserSchema) => void;
+  loading: boolean;
 }

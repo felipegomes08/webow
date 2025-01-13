@@ -1,7 +1,7 @@
 import { AxiosRequestConfig } from 'axios';
 
-export interface APIResponse {
-  data?: any;
+export interface APIResponse<t = any> {
+  data?: t;
   success: boolean;
   error?: any;
   message?: string;

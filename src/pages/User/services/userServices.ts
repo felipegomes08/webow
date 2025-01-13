@@ -3,6 +3,7 @@ import { APIResponse } from 'types/api/Api.type';
 import {
   UserPostRequest,
   UserPutRequest,
+  UserResponse,
   UsersGetRequest
 } from '../types/UserApi.type';
 
@@ -13,7 +14,9 @@ export const createUser = async (user: UserPostRequest) => {
 };
 
 export const getUser = async (id: string) => {
-  const response: APIResponse = await getApi({ url: `/users/${id}` });
+  const response: APIResponse<UserResponse> = await getApi({
+    url: `/users/${id}`
+  });
 
   return response;
 };

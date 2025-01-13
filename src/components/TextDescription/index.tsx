@@ -5,7 +5,7 @@ const TextDescription = ({ label, value }: TextDescriptionProps) => {
   if (value === undefined || value === null) return;
   return (
     <Stack direction={'row'} spacing={1}>
-      <Typography variant="h3" minWidth={200}>
+      <Typography variant="h3" minWidth={150}>
         {label}
       </Typography>
       <Typography variant="h3" fontWeight={'normal'}>

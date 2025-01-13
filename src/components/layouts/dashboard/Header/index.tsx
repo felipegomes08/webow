@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import brand from 'assets/brand.svg';
 import Avatar from 'components/layouts/dashboard/HeaderAvatar';
 import SearchNavbar from 'components/layouts/dashboard/SearchNavbar';
-import { layoutPadding } from 'theme/globalStyles';
+import { headerHeight, layoutPadding } from 'theme/globalStyles';
 import theme from 'theme/theme';
 import { HeaderProps } from './HeaderProps.type';
 
@@ -19,7 +19,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 const Header = ({ open, handleDrawerOpen, handleDrawerClose }: HeaderProps) => {
   return (
     <Box
-      height={'60px'}
+      height={headerHeight}
       sx={{
         display: { xs: 'none', md: 'flex' },
         width: '100%',

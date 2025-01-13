@@ -6,11 +6,13 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  CircularProgress,
   IconButton,
   Accordion as MUIAccordion
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { GridAccordionProps } from 'components/GridAccordion/GridAccordion.type';
+import { useState } from 'react';
 import theme from 'theme/theme';
 
 const GridAccordion = ({
@@ -22,9 +24,11 @@ const GridAccordion = ({
   closeCallback,
   deleteCallback,
   editCallback,
+  editLoading,
   expandCallback,
   expandIcon
 }: GridAccordionProps) => {
+  const [indexClicked, setIndexClicked] = useState<number | null>(null);
   return (
     <MUIAccordion
       square={true}
@@ -99,7 +103,10 @@ const GridAccordion = ({
             {!!deleteCallback && (
               <IconButton
                 sx={{ padding: '2px', borderRadius: theme.shape.borderRadius }}
-                onClick={deleteCallback}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteCallback(e);
+                }}
               >
                 <DeleteIcon sx={{ fontSize: '18px', color: grey[900] }} />
               </IconButton>
@@ -107,11 +114,21 @@ const GridAccordion = ({
             {editCallback && (
               <IconButton
                 sx={{ padding: '2px', borderRadius: theme.shape.borderRadius }}
-                onClick={editCallback}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  setIndexClicked(index);
+                  await editCallback(e);
+                  setIndexClicked(null);
+                }}
+                disabled={editLoading}
               >
-                <EditNoteOutlinedIcon
-                  sx={{ fontSize: '18px', color: grey[900] }}
-                />
+                {editLoading && indexClicked === index ? (
+                  <CircularProgress size={18} />
+                ) : (
+                  <EditNoteOutlinedIcon
+                    sx={{ fontSize: '18px', color: grey[900] }}
+                  />
+                )}
               </IconButton>
             )}
             {expandIcon && <ExpandMoreOutlinedIcon />}

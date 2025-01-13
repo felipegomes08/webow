@@ -1,5 +1,5 @@
 export interface CountCardProps {
   label: string;
-  value: number;
+  value: number | undefined;
   color?: string;
 }

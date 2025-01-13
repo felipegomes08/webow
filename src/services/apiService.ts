@@ -15,7 +15,7 @@ interface GetApiParams {
 export const getApi = async ({
   url,
   config
-}: GetApiParams): Promise<APIResponse> => {
+}: GetApiParams): Promise<APIResponse<any>> => {
   try {
     const response: AxiosResponse = await api.get(url, config);
     return response.data;

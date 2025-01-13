@@ -1,10 +1,10 @@
 import { UserGridResponseData } from 'pages/User/types/UserApi.type';
-import { MouseEventHandler } from 'react';
 
 export interface UserAccordionProps {
   userGridResponseData: UserGridResponseData | undefined;
   deleteCallback: (id: string) => void;
-  editCallback: MouseEventHandler<HTMLButtonElement> | undefined;
+  editCallback: (id: string) => void;
+  editLoading: boolean;
   isLoading: boolean;
   page: number;
   limit: number;

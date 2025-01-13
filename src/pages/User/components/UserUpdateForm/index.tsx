@@ -5,14 +5,19 @@ import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
 import SelectData from 'components/SelectData';
 import useMetadata from 'hooks/useMetadata';
-import { UserSchema, userSchema } from 'pages/User/types/User.type';
+import { UserUpdateSchema, userUpdateSchema } from 'pages/User/types/User.type';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { Uf } from 'types/metadata';
-import { UserFormProps } from './UserForm.type';
+import { formatCPF, formatPhone } from 'utils/formatters';
+import { UserUpdateFormProps } from './UserUpdateForm.type';
 
-const UserForm = ({ onCreate, loading }: UserFormProps) => {
+const UserUpdateForm = ({
+  onSave,
+  userUpdate,
+  loading
+}: UserUpdateFormProps) => {
   const [ufs, setUfs] = useState<Uf[]>([]);
   const { userTypes, accountTypes, userStatus } = useMetadata();
   const {
@@ -20,8 +25,22 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<UserSchema>({
-    resolver: zodResolver(userSchema)
+  } = useForm<UserUpdateSchema>({
+    resolver: zodResolver(userUpdateSchema),
+    defaultValues: {
+      id: userUpdate ? userUpdate.id : '',
+      name: userUpdate ? userUpdate.name : '',
+      cpf: userUpdate ? formatCPF(userUpdate.cpf) : '',
+      email: userUpdate ? userUpdate.email : '',
+      phone: userUpdate ? formatPhone(userUpdate.phone) : '',
+      uf: userUpdate ? userUpdate.uf : '',
+      pixKey: userUpdate ? userUpdate.pixKey : '',
+      balance: userUpdate ? userUpdate.balance : 0,
+      affiliateId: userUpdate ? userUpdate.affiliateId : '',
+      accountType: userUpdate ? userUpdate.accountType.name : '',
+      userType: userUpdate ? userUpdate.userType.name : '',
+      status: userUpdate ? userUpdate.status.name : ''
+    }
   });
 
   useEffect(() => {
@@ -36,7 +55,7 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
 
   return (
     <form
-      onSubmit={handleSubmit(onCreate)}
+      onSubmit={handleSubmit((user) => onSave(user.id!, user))}
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -117,12 +136,6 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
           error={!!errors.email}
           helperText={errors.email && errors.email.message}
           register={register('email')}
-        />
-        <InputPasswordField
-          label="Senha"
-          error={!!errors.password}
-          helperText={errors.password && errors.password.message}
-          register={register('password')}
         />
       </Box>
       <Box width={'100%'} display="flex" gap={1}>
@@ -216,4 +229,4 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
   );
 };
 
-export default UserForm;
+export default UserUpdateForm;

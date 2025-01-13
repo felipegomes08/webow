@@ -10,6 +10,7 @@ export interface UserProps {
 }
 
 export const userSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(4, 'O nome é muito curto'),
   cpf: z
     .string()
@@ -37,10 +38,40 @@ export const userSchema = z.object({
     .union([z.string(), z.number()])
     .transform((val) => (typeof val === 'string' ? parseFloat(val) : val))
     .optional(),
-  affiliateId: z.string().optional(),
+  affiliateId: z.string().optional().nullable(),
   accountType: z.string().min(1, 'O tipo de conta é obrigatório'),
   userType: z.string().min(1, 'O tipo de usuário é obrigatório'),
   status: z.string().min(1, 'O status é obrigatório')
 });
 
 export type UserSchema = z.infer<typeof userSchema>;
+
+export const userUpdateSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().min(4, 'O nome é muito curto'),
+  cpf: z
+    .string()
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, 'CPF inválido')
+    .min(14, 'CPF inválido')
+    .transform((cpf) => cpf.replace(/[^\d]/g, '')),
+  email: z
+    .string()
+    .min(1, 'O e-mail é obrigatório')
+    .email('Formato de e-mail inválido'),
+  phone: z
+    .string()
+    .regex(/^\(\d{2}\) \d{5}-\d{4}$/, 'Número de telefone inválido')
+    .transform((phone) => phone.replace(/[^\d]/g, '')),
+  uf: z.string().min(1, 'UF é obrigatório'),
+  pixKey: z.string().min(1, 'A chave PIX é obrigatória'),
+  balance: z
+    .union([z.string(), z.number()])
+    .transform((val) => (typeof val === 'string' ? parseFloat(val) : val))
+    .optional(),
+  affiliateId: z.string().optional().nullable(),
+  accountType: z.string().min(1, 'O tipo de conta é obrigatório'),
+  userType: z.string().min(1, 'O tipo de usuário é obrigatório'),
+  status: z.string().min(1, 'O status é obrigatório')
+});
+
+export type UserUpdateSchema = z.infer<typeof userUpdateSchema>;

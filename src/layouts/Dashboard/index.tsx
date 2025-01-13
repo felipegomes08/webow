@@ -9,7 +9,7 @@ import { AuthContext } from 'context/AuthContext';
 import useActivePath from 'hooks/useActivePath';
 import { useContext, useEffect, useState } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { layoutPadding, sidebarWidth } from 'theme/globalStyles';
+import { headerHeight, layoutPadding, sidebarWidth } from 'theme/globalStyles';
 import theme from 'theme/theme';
 
 const Dashboard = (_: { disableCustomTheme?: boolean }) => {
@@ -50,7 +50,7 @@ const Dashboard = (_: { disableCustomTheme?: boolean }) => {
     <Box
       width={'100vw'}
       height={'100vh'}
-      sx={{ overflowX: 'hidden', padding: 0, margin: 0 }}
+      sx={{ overflow: 'hidden', padding: 0, margin: 0 }}
     >
       <CssBaseline enableColorScheme />
       <Header
@@ -79,7 +79,8 @@ const Dashboard = (_: { disableCustomTheme?: boolean }) => {
         component="main"
         sx={{
           backgroundColor: alpha(theme.palette.background.default, 1),
-          overflow: 'auto',
+          overflowY: 'auto',
+          height: `calc(100vh - ${headerHeight})`,
           p: layoutPadding
         }}
       >
