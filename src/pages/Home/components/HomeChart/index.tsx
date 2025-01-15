@@ -1,9 +1,9 @@
 import { grey } from '@mui/material/colors';
 import { ApexOptions } from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
-import { EvolutionChartProps } from './EvolutionChart.type';
+import { HomeChartProps } from './HomeChart.type';
 
-const EvolutionChart = ({ title }: EvolutionChartProps) => {
+const HomeChart = ({ title }: HomeChartProps) => {
   const series = [
     {
       name: 'Receita',
@@ -82,4 +82,4 @@ const EvolutionChart = ({ title }: EvolutionChartProps) => {
   );
 };
 
-export default EvolutionChart;
+export default HomeChart;

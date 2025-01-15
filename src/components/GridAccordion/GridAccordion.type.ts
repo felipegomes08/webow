@@ -10,7 +10,7 @@ export interface GridAccordionProps {
   closeCallback?: MouseEventHandler<HTMLButtonElement> | undefined;
   deleteCallback?: MouseEventHandler<HTMLButtonElement> | undefined;
   editCallback?: MouseEventHandler<HTMLButtonElement> | undefined;
-  editLoading: boolean;
+  editLoading?: boolean;
   expandCallback?:
     | ((event: React.SyntheticEvent, expanded: boolean) => void)
     | undefined;

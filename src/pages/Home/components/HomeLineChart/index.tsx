@@ -1,7 +1,7 @@
 import { ApexOptions } from 'apexcharts';
 import ReactApexChart from 'react-apexcharts';
 
-const EvolutionLineChart = () => {
+const HomeLineChart = () => {
   const series = [
     {
       name: 'Apostas',
@@ -74,4 +74,4 @@ const EvolutionLineChart = () => {
   );
 };
 
-export default EvolutionLineChart;
+export default HomeLineChart;

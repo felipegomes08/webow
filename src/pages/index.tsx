@@ -1,6 +1,5 @@
 export { Affiliate } from 'pages/Affiliate';
 export { Bets } from 'pages/Bets';
-export { Evolution } from 'pages/Evolution';
 export { Home } from 'pages/Home';
 export { Marketing } from 'pages/Marketing';
 export { Support } from 'pages/Support';

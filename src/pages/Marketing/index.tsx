@@ -87,9 +87,9 @@ export const Marketing = () => {
     location.pathname === '/marketing/upsell' ? (
       <MarketingUpSellForm />
     ) : location.pathname === '/marketing/pixel' ? (
-      <UserForm />
+      <UserForm onCreate={() => {}} loading />
     ) : (
-      <UserForm />
+      <UserForm onCreate={() => {}} loading />
     );
   const listTabs: ListTabsProps[] = [
     {

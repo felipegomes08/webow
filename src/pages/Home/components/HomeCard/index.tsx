@@ -2,13 +2,13 @@ import { grey } from '@mui/material/colors';
 import Grid from '@mui/material/Grid2';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { EvolutionCardProps } from 'pages/Evolution/components/EvolutionCard/EvolutionCard.type';
-import EvolutionChart from 'pages/Evolution/components/EvolutionChart';
+import { HomeCardProps } from 'pages/Home/components/HomeCard/HomeCard.type';
+import HomeChart from 'pages/Home/components/HomeChart';
 import { useEffect } from 'react';
 import theme from 'theme/theme';
-import EvolutionLineChart from '../EvolutionLineChart';
+import HomeLineChart from '../HomeLineChart';
 
-const EvolutionCard = ({}: EvolutionCardProps) => {
+const HomeCard = ({}: HomeCardProps) => {
   useEffect(() => {
     AOS.init({ duration: 700, easing: 'ease-in-out', delay: 0 });
   }, []);
@@ -20,7 +20,7 @@ const EvolutionCard = ({}: EvolutionCardProps) => {
         p={2}
         size={6}
       >
-        <EvolutionChart title={'Total Depositado'} />
+        <HomeChart title={'Total Depositado'} />
       </Grid>
       <Grid
         bgcolor={grey[50]}
@@ -28,7 +28,7 @@ const EvolutionCard = ({}: EvolutionCardProps) => {
         p={2}
         size={6}
       >
-        <EvolutionChart title={'Lucro Liquido'} />
+        <HomeChart title={'Lucro Liquido'} />
       </Grid>
       <Grid
         bgcolor={grey[50]}
@@ -36,10 +36,10 @@ const EvolutionCard = ({}: EvolutionCardProps) => {
         p={2}
         size={12}
       >
-        <EvolutionLineChart />
+        <HomeLineChart />
       </Grid>
     </Grid>
   );
 };
 
-export default EvolutionCard;
+export default HomeCard;

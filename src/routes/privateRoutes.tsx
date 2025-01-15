@@ -1,6 +1,5 @@
 import AffiliatesIcon from 'assets/menuIcons/AffiliatesIcon.svg';
 import BetsIcon from 'assets/menuIcons/BetsIcon.svg';
-import EvolutionIcon from 'assets/menuIcons/EvolutionIcon.svg';
 import HomeIcon from 'assets/menuIcons/HomeIcon.svg';
 import MarketingIcon from 'assets/menuIcons/MarketingIcon.svg';
 import SupportIcon from 'assets/menuIcons/SupportIcon.svg';
@@ -8,7 +7,6 @@ import SystemIcon from 'assets/menuIcons/SystemIcon.svg';
 import UsersIcon from 'assets/menuIcons/UsersIcon.svg';
 import { Affiliate } from 'pages/Affiliate';
 import { Bets } from 'pages/Bets';
-import { Evolution } from 'pages/Evolution';
 import { Home } from 'pages/Home';
 import { Marketing } from 'pages/Marketing';
 import { Support } from 'pages/Support';
@@ -26,19 +24,6 @@ export const privateRoutes = [
       {
         label: 'Início',
         path: '/app/home'
-      }
-    ]
-  },
-  {
-    path: 'evolution',
-    element: <Evolution />,
-    title: 'Evolução',
-    icon: EvolutionIcon,
-    showSidebar: true,
-    breadcrumbs: [
-      {
-        label: 'Evolução',
-        path: '/app/evolution'
       }
     ]
   },
