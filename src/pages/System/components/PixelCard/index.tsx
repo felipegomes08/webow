@@ -7,28 +7,25 @@ import {
   TextField
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import { SystemCardProps } from 'pages/System/components/SystemCard/SystemCard.type';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import theme from 'theme/theme';
+import { PixelCardProps } from './PixelCard.type';
 
-const SystemCard = ({
+const PixelCard = ({
   configuracao,
-  handleUpdateSystem,
+  handleUpdatePixel,
   loading
-}: SystemCardProps) => {
+}: PixelCardProps) => {
   const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [value, setValue] = useState<string>(
-    JSON.stringify(configuracao, null, 2)
-  );
+  const [value, setValue] = useState<string | undefined>(configuracao);
 
   const handleSave = async () => {
     try {
-      const jsonValue = JSON.parse(value);
-      await handleUpdateSystem(jsonValue);
+      await handleUpdatePixel(value || '');
       setIsEditMode(false);
     } catch (error) {
-      toast.error('Objeto JSON inválido!');
+      toast.error('Pixel inválido!');
     }
   };
 
@@ -43,9 +40,9 @@ const SystemCard = ({
       <Box position={'relative'}>
         <TextField
           multiline
+          fullWidth
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          fullWidth
           sx={{
             '& .MuiOutlinedInput-root': {
               border: 'none',
@@ -111,7 +108,7 @@ const SystemCard = ({
                 ':hover': { background: 'darkRed' }
               }}
               onClick={() => {
-                setValue(JSON.stringify(configuracao, null, 2));
+                setValue(configuracao);
                 setIsEditMode(false);
               }}
               disabled={loading}
@@ -125,4 +122,4 @@ const SystemCard = ({
   );
 };
 
-export default SystemCard;
+export default PixelCard;

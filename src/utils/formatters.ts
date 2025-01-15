@@ -84,6 +84,8 @@ export const formatCPF = (cpf: string): string => {
  * @returns The formatted phone number string.
  */
 export const formatPhone = (phone: string): string => {
-  const cleanedPhone = cleanValue(phone);
+  let cleanedPhone = cleanValue(phone);
+  cleanedPhone =
+    cleanedPhone.length > 11 ? cleanedPhone.slice(0, 11) : cleanedPhone;
   return cleanedPhone.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
 };

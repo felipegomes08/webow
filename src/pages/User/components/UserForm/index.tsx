@@ -64,7 +64,6 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
                   label="CPF"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('cpf')}
                 />
               )}
             </ReactInputMask>
@@ -85,7 +84,6 @@ const UserForm = ({ onCreate, loading }: UserFormProps) => {
                   label="Telefone"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('phone')}
                 />
               )}
             </ReactInputMask>

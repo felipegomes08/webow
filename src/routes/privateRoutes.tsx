@@ -295,5 +295,21 @@ export const privateRoutes = [
         path: '/app/system/interface'
       }
     ]
+  },
+  {
+    path: 'system/pixel',
+    element: <System />,
+    title: 'Pixel Meta',
+    showSidebar: false,
+    breadcrumbs: [
+      {
+        label: 'Sistema',
+        path: '/app/system'
+      },
+      {
+        label: 'Pixel Meta',
+        path: '/app/system/pixel'
+      }
+    ]
   }
 ];

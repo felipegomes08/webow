@@ -1,92 +1,116 @@
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PersonIcon from '@mui/icons-material/Person';
-import { CircularProgress, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography
+} from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
 import Pagination from 'components/Pagination';
+import TextDescription from 'components/TextDescription';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import theme from 'theme/theme';
+import { copyToClipboard, formatCurrency } from 'utils/formatters';
 import { AffiliateAccordionProps } from './AffiliateAccordion.type';
 
 const AffiliateAccordion = ({
   affiliateGridResponseData,
-  deleteCallback,
   editCallback,
+  editLoading,
   isLoading,
   page,
   limit
 }: AffiliateAccordionProps) => {
+  const [expanded, setExpanded] = useState<string[]>([]);
+
+  const handleCopy = async (text: string) => {
+    const result = await copyToClipboard(text);
+    if (result) {
+      toast.info('Chave Pix copiada para área de transferencia');
+    }
+  };
+
   if (isLoading) return <CircularProgress />;
   return (
     <>
       {affiliateGridResponseData?.affiliates?.map(
-        ({ id, name, cpf, email, phone, pixKey, affiliateType }, index) => {
-          const [expanded, setExpanded] = useState(false);
-
+        ({ id, code, link, balance, user, userId }, index) => {
           const toggleExpand = (
             _: React.SyntheticEvent,
             isExpanded: boolean
           ) => {
-            setExpanded(isExpanded);
+            if (isExpanded) setExpanded((prevArgs) => [...prevArgs, id]);
+            else setExpanded(expanded.filter((x) => x !== id));
           };
           return (
             <GridAccordion
-              expanded={expanded}
+              expanded={expanded.includes(id)}
               index={index}
               icon={<PersonIcon sx={{ color: grey[900] }} />}
               titleContent={
                 <>
-                  <Typography variant="h3">{name}</Typography>
+                  <Typography variant="h3">{user.name}</Typography>
                   <Typography variant="h4" fontWeight={'500'}>
-                    {cpf}
+                    {code}
                   </Typography>
                   <Typography variant="h4" fontWeight={'500'}>
-                    {phone}
+                    {link}
                   </Typography>
                   <Typography variant="h4" fontWeight={'500'}>
-                    {email}
+                    {formatCurrency(balance)}
                   </Typography>
                 </>
               }
               detailsContent={
-                <Stack
-                  direction={'row'}
-                  borderRadius={theme.shape.borderRadius}
-                  border={`1.5px solid ${grey[300]}`}
-                  p={2}
-                >
-                  <Stack mr={4} spacing={1}>
-                    <Typography variant="h3">Nome: </Typography>
-                    <Typography variant="h3">CPF: </Typography>
-                    <Typography variant="h3">Telefone: </Typography>
-                    <Typography variant="h3">Email: </Typography>
-                    <Typography variant="h3">Chave-Pix: </Typography>
-                    <Typography variant="h3">Tipo: </Typography>
+                <Box p={2} display={'flex'} gap={2} flexDirection={'column'}>
+                  <Stack
+                    borderRadius={theme.shape.borderRadius}
+                    border={`1.5px solid ${grey[300]}`}
+                    px={4}
+                    py={2}
+                    direction={'row'}
+                    alignItems={'center'}
+                  >
+                    <TextDescription label="Link:" value={link} />
+                    <Button size="small" onClick={() => handleCopy(link)}>
+                      <ContentCopyIcon fontSize="small" />
+                    </Button>
                   </Stack>
-                  <Stack spacing={1}>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {name}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {cpf}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {email}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {phone}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {pixKey}
-                    </Typography>
-                    <Typography variant="h3" fontWeight={'normal'}>
-                      {affiliateType.name}
-                    </Typography>
+                  <Stack
+                    borderRadius={theme.shape.borderRadius}
+                    border={`1.5px solid ${grey[300]}`}
+                    px={4}
+                    py={2}
+                    direction={'row'}
+                    alignItems={'center'}
+                  >
+                    <TextDescription label="Código:" value={code} />
+                    <Button size="small" onClick={() => handleCopy(code)}>
+                      <ContentCopyIcon fontSize="small" />
+                    </Button>
                   </Stack>
-                </Stack>
+                </Box>
               }
               expandCallback={toggleExpand}
-              deleteCallback={() => deleteCallback(id)}
-              editCallback={editCallback}
+              editCallback={() =>
+                editCallback({
+                  id,
+                  code,
+                  cpf: user.cpf,
+                  email: user.email,
+                  password: user.password,
+                  link,
+                  name: user.name,
+                  phone: user.phone,
+                  pixKey: user.pixKey,
+                  userId: userId
+                })
+              }
+              editLoading={editLoading}
             />
           );
         }

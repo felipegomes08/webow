@@ -1,44 +1,46 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, CircularProgress } from '@mui/material';
-import axios from 'axios';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
-import useMetadata from 'hooks/useMetadata';
 import {
-  AffiliateSchema,
-  affiliateSchema
+  AffiliateUpdateSchema,
+  affiliateUpdateSchema
 } from 'pages/Affiliate/types/Affiliate.type';
-import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
-import { Uf } from 'types/metadata';
-import { AffiliateFormProps } from './AffiliateForm.type';
+import { formatCPF, formatPhone } from 'utils/formatters';
+import { AffiliateUpdateFormProps } from './AffiliateUpdateForm.type';
 
-const AffiliateForm = ({ onCreate, loading }: AffiliateFormProps) => {
-  const [ufs, setUfs] = useState<Uf[]>([]);
-  const { userTypes, accountTypes, userStatus } = useMetadata();
+const AffiliateUpdateForm = ({
+  onSave,
+  affiliateUpdate,
+  loading
+}: AffiliateUpdateFormProps) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<AffiliateSchema>({
-    resolver: zodResolver(affiliateSchema)
+  } = useForm<AffiliateUpdateSchema>({
+    resolver: zodResolver(affiliateUpdateSchema),
+    defaultValues: {
+      id: affiliateUpdate ? affiliateUpdate.id : '',
+      name: affiliateUpdate ? affiliateUpdate.name : '',
+      cpf: affiliateUpdate ? formatCPF(affiliateUpdate.cpf || '') : '',
+      email: affiliateUpdate ? affiliateUpdate.email : '',
+      password: affiliateUpdate ? affiliateUpdate.password : '',
+      phone: affiliateUpdate ? formatPhone(affiliateUpdate.phone || '') : '',
+      pixKey: affiliateUpdate ? affiliateUpdate.pixKey : '',
+      code: affiliateUpdate ? affiliateUpdate.code : '',
+      link: affiliateUpdate ? affiliateUpdate.link : ''
+    }
   });
 
-  useEffect(() => {
-    const fetchUfs = async () => {
-      const response = await axios.get(
-        'https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome'
-      );
-      setUfs(response.data);
-    };
-    fetchUfs();
-  }, []);
+  console.log(errors);
 
   return (
     <form
-      onSubmit={handleSubmit(onCreate)}
+      onSubmit={handleSubmit((affiliate) => onSave(affiliate.id!, affiliate))}
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -66,7 +68,6 @@ const AffiliateForm = ({ onCreate, loading }: AffiliateFormProps) => {
                   label="CPF"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('cpf')}
                 />
               )}
             </ReactInputMask>
@@ -87,7 +88,6 @@ const AffiliateForm = ({ onCreate, loading }: AffiliateFormProps) => {
                   label="Telefone"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('phone')}
                 />
               )}
             </ReactInputMask>
@@ -137,4 +137,4 @@ const AffiliateForm = ({ onCreate, loading }: AffiliateFormProps) => {
   );
 };
 
-export default AffiliateForm;
+export default AffiliateUpdateForm;

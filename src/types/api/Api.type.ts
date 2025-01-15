@@ -5,6 +5,7 @@ export interface APIResponse<t = any> {
   success: boolean;
   error?: any;
   message?: string;
+  [property: string]: any;
 }
 
 export interface GetApiParams {

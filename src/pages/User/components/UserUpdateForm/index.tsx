@@ -83,7 +83,6 @@ const UserUpdateForm = ({
                   label="CPF"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('cpf')}
                 />
               )}
             </ReactInputMask>
@@ -104,7 +103,6 @@ const UserUpdateForm = ({
                   label="Telefone"
                   error={!!fieldState.error}
                   helperText={fieldState.error ? fieldState.error.message : ''}
-                  register={register('phone')}
                 />
               )}
             </ReactInputMask>

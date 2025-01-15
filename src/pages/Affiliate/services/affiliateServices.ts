@@ -3,6 +3,7 @@ import { APIResponse } from 'types/api/Api.type';
 import {
   AffiliatePostRequest,
   AffiliatePutRequest,
+  AffiliateResponse,
   AffiliatesGetRequest
 } from '../types/AffiliateApi.type';
 
@@ -16,7 +17,9 @@ export const createAffiliate = async (affiliate: AffiliatePostRequest) => {
 };
 
 export const getAffiliate = async (id: string) => {
-  const response: APIResponse = await getApi({ url: `/affiliates/${id}` });
+  const response: APIResponse<AffiliateResponse> = await getApi({
+    url: `/affiliates/${id}`
+  });
 
   return response;
 };
