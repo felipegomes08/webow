@@ -1,8 +1,11 @@
-import { MessageProps } from 'pages/Support/types/Message.type';
-import { MouseEventHandler } from 'react';
+import { MessageGridResponseData } from 'pages/Support/types/SupportApi.type';
 
 export interface MessageAccordionProps {
-  messageList: MessageProps[];
-  deleteCallback: MouseEventHandler<HTMLButtonElement> | undefined;
-  editCallback: MouseEventHandler<HTMLButtonElement> | undefined;
+  messageGridResponseData: MessageGridResponseData | undefined;
+  deleteCallback: (id: string) => void;
+  editCallback: (id: string) => void;
+  editLoading: boolean;
+  isLoading: boolean;
+  page: number;
+  limit: number;
 }

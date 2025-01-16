@@ -4,24 +4,43 @@ import axios from 'axios';
 import InputPasswordField from 'components/InputPasswordField';
 import InputTextField from 'components/InputTextField';
 import SelectData from 'components/SelectData';
-import useMetadata from 'hooks/useMetadata';
-import { MessageSchema, messageSchema } from 'pages/Support/types/Support.type';
+import {
+  messageUpdateSchema,
+  MessageUpdateSchema
+} from 'pages/Support/types/Support.type';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import ReactInputMask from 'react-input-mask';
 import { Uf } from 'types/metadata';
-import { MessageFormProps } from './MessageForm.type';
+import { formatCPF, formatPhone } from 'utils/formatters';
+import { MessageUpdateFormProps } from './MessageUpdateForm.type';
 
-const MessageForm = ({ onCreate, loading }: MessageFormProps) => {
+const MessageUpdateForm = ({
+  onSave,
+  messageUpdate,
+  loading
+}: MessageUpdateFormProps) => {
   const [ufs, setUfs] = useState<Uf[]>([]);
-  const { userTypes, accountTypes, userStatus } = useMetadata();
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<MessageSchema>({
-    resolver: zodResolver(messageSchema)
+  } = useForm<MessageUpdateSchema>({
+    resolver: zodResolver(messageUpdateSchema),
+    defaultValues: {
+      id: messageUpdate ? messageUpdate.id : '',
+      name: messageUpdate ? messageUpdate.name : '',
+      cpf: messageUpdate ? formatCPF(messageUpdate.cpf) : '',
+      email: messageUpdate ? messageUpdate.email : '',
+      phone: messageUpdate ? formatPhone(messageUpdate.phone) : '',
+      uf: messageUpdate ? messageUpdate.uf : '',
+      pixKey: messageUpdate ? messageUpdate.pixKey : '',
+      balance: messageUpdate ? messageUpdate.balance : 0,
+      affiliateId: messageUpdate ? messageUpdate.affiliateId : '',
+      accountType: messageUpdate ? messageUpdate.accountType.name : '',
+      status: messageUpdate ? messageUpdate.status.name : ''
+    }
   });
 
   useEffect(() => {
@@ -36,7 +55,7 @@ const MessageForm = ({ onCreate, loading }: MessageFormProps) => {
 
   return (
     <form
-      onSubmit={handleSubmit(onCreate)}
+      onSubmit={handleSubmit((message) => onSave(message.id!, message))}
       style={{
         display: 'flex',
         justifyContent: 'center',
@@ -116,12 +135,6 @@ const MessageForm = ({ onCreate, loading }: MessageFormProps) => {
           helperText={errors.email && errors.email.message}
           register={register('email')}
         />
-        <InputPasswordField
-          label="Senha"
-          error={!!errors.password}
-          helperText={errors.password && errors.password.message}
-          register={register('password')}
-        />
       </Box>
       <Box width={'100%'} display="flex" gap={1}>
         <InputPasswordField
@@ -129,25 +142,6 @@ const MessageForm = ({ onCreate, loading }: MessageFormProps) => {
           error={!!errors.pixKey}
           helperText={errors.pixKey && errors.pixKey.message}
           register={register('pixKey')}
-        />
-        <Controller
-          name="accountType"
-          control={control}
-          render={({ field, fieldState }) => (
-            <SelectData
-              id="account-select"
-              label="Tipo de Conta"
-              fieldError={fieldState.error}
-              register={register('accountType')}
-              {...field}
-            >
-              {accountTypes?.map((x) => (
-                <MenuItem key={`${x.id}-${x.name}`} value={x.name}>
-                  {x.label}
-                </MenuItem>
-              ))}
-            </SelectData>
-          )}
         />
       </Box>
       <Box width={'100%'} display="flex" gap={1}>
@@ -174,4 +168,4 @@ const MessageForm = ({ onCreate, loading }: MessageFormProps) => {
   );
 };
 
-export default MessageForm;
+export default MessageUpdateForm;

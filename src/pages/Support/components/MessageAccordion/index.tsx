@@ -1,75 +1,173 @@
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
-import { Stack, Typography } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import PersonIcon from '@mui/icons-material/Person';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Stack,
+  Typography
+} from '@mui/material';
 import { grey } from '@mui/material/colors';
 import GridAccordion from 'components/GridAccordion';
-import { MessageAccordionProps } from 'pages/Support/components/MessageAccordion/MessageAccordion.type';
+import Pagination from 'components/Pagination';
+import TextDescription from 'components/TextDescription';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import theme from 'theme/theme';
+import {
+  copyToClipboard,
+  formatCPF,
+  formatCurrency,
+  formatPhone
+} from 'utils/formatters';
+import { MessageAccordionProps } from './MessageAccordion.type';
 
 const MessageAccordion = ({
-  messageList,
+  messageGridResponseData,
   deleteCallback,
-  editCallback
+  editCallback,
+  editLoading,
+  isLoading,
+  page,
+  limit
 }: MessageAccordionProps) => {
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const [copied, setCopied] = useState<boolean>(false);
+
+  const handleCopy = async (text: string) => {
+    const result = await copyToClipboard(text);
+    if (result) {
+      setCopied(true);
+      toast.info('Chave Pix copiada para área de transferencia');
+      setTimeout(() => setCopied(false), 5000);
+    }
+  };
+
+  if (isLoading) return <CircularProgress />;
   return (
     <>
-      {messageList.map(({ assunto, conteudo, codigo, data }, index) => {
-        const [expanded, setExpanded] = useState(false);
-
-        const toggleExpand = (_: React.SyntheticEvent, isExpanded: boolean) => {
-          setExpanded(isExpanded);
-        };
-        return (
-          <GridAccordion
-            expanded={expanded}
-            index={index}
-            icon={<DescriptionOutlinedIcon sx={{ color: grey[900] }} />}
-            titleContent={
-              <>
-                <Typography variant="h3">{assunto}</Typography>
-                <Typography variant="h4" fontWeight={'500'}>
-                  {codigo}
-                </Typography>
-                <Typography variant="h4" fontWeight={'500'}>
-                  {data.toLocaleDateString('pt-BR')}
-                </Typography>
-              </>
-            }
-            detailsContent={
-              <Stack spacing={1}>
-                <Stack
-                  direction={'row'}
-                  borderRadius={theme.shape.borderRadius}
-                  border={`1.5px solid ${grey[300]}`}
-                  p={2}
-                >
-                  <Stack mr={4} spacing={1}>
-                    <Typography variant="h3">Assunto: </Typography>
-                  </Stack>
-                  <Stack spacing={1}>
-                    <Typography variant="h3" fontWeight={'bold'}>
-                      {assunto}
-                    </Typography>
-                  </Stack>
-                </Stack>
-                <Stack
-                  direction={'row'}
-                  borderRadius={theme.shape.borderRadius}
-                  border={`1.5px solid ${grey[300]}`}
-                  p={2}
-                >
-                  <Typography variant="h3" fontWeight={'normal'}>
-                    {conteudo}
+      {messageGridResponseData?.messages?.map(
+        (
+          {
+            id,
+            name,
+            cpf,
+            email,
+            phone,
+            pixKey,
+            balance,
+            uf,
+            accountType,
+            affiliateId,
+            status,
+            userType
+          },
+          index
+        ) => {
+          const toggleExpand = (
+            _: React.SyntheticEvent,
+            isExpanded: boolean
+          ) => {
+            if (isExpanded) setExpanded((prevArgs) => [...prevArgs, id]);
+            else setExpanded(expanded.filter((x) => x !== id));
+          };
+          return (
+            <GridAccordion
+              expanded={expanded.includes(id)}
+              index={index}
+              icon={<PersonIcon sx={{ color: grey[900] }} />}
+              titleContent={
+                <>
+                  <Typography variant="h3">{name}</Typography>
+                  <Typography variant="h4" fontWeight={'500'}>
+                    {formatCPF(cpf)}
                   </Typography>
-                </Stack>
-              </Stack>
-            }
-            expandCallback={toggleExpand}
-            deleteCallback={deleteCallback}
-            editCallback={editCallback}
-          />
-        );
-      })}
+                  <Typography variant="h4" fontWeight={'500'}>
+                    {formatPhone(phone)}
+                  </Typography>
+                  <Typography variant="h4" fontWeight={'500'}>
+                    {email}
+                  </Typography>
+                </>
+              }
+              detailsContent={
+                <Box p={2} display={'flex'} gap={2} flexDirection={'column'}>
+                  <Stack
+                    borderRadius={theme.shape.borderRadius}
+                    border={`1.5px solid ${grey[300]}`}
+                    p={4}
+                    spacing={1}
+                  >
+                    <TextDescription label="Nome:" value={name} />
+                    <TextDescription label="CPF:" value={formatCPF(cpf)} />
+                    <TextDescription label="UF:" value={uf} />
+                    <TextDescription
+                      label="Telefone:"
+                      value={formatPhone(phone)}
+                    />
+                    <TextDescription label="Email:" value={email} />
+                    <TextDescription
+                      label="Código de Afiliado:"
+                      value={affiliateId}
+                    />
+                  </Stack>
+                  <Stack
+                    spacing={1}
+                    p={4}
+                    borderRadius={theme.shape.borderRadius}
+                    border={`1.5px solid ${grey[300]}`}
+                  >
+                    <TextDescription
+                      label="Tipo de Usuário:"
+                      value={userType.label}
+                    />
+                    <TextDescription
+                      label="Tipo de Conta:"
+                      value={accountType.label}
+                    />
+                    <TextDescription label="Status:" value={status.label} />
+                  </Stack>
+                  <Stack
+                    p={4}
+                    direction={'row'}
+                    borderRadius={theme.shape.borderRadius}
+                    border={`1.5px solid ${grey[300]}`}
+                  >
+                    <Box display={'flex'} gap={2} mr={20} alignItems={'center'}>
+                      <TextDescription label="Chave Pix:" value={pixKey} />
+                      {!copied ? (
+                        <Button size="small" onClick={() => handleCopy(pixKey)}>
+                          <ContentCopyIcon fontSize="small" />
+                        </Button>
+                      ) : (
+                        <Button size="small">
+                          <CheckCircleIcon fontSize="small" />
+                        </Button>
+                      )}
+                    </Box>
+                    <TextDescription
+                      label="Saldo:"
+                      value={formatCurrency(balance)}
+                    />
+                  </Stack>
+                </Box>
+              }
+              expandCallback={toggleExpand}
+              deleteCallback={() => deleteCallback(id)}
+              editCallback={() => editCallback(id)}
+              editLoading={editLoading}
+            />
+          );
+        }
+      )}
+      {messageGridResponseData && (
+        <Pagination
+          page={page}
+          total={messageGridResponseData.total}
+          limit={limit}
+        />
+      )}
     </>
   );
 };
