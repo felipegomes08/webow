@@ -21,29 +21,29 @@ import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { APIResponse } from 'types/api/Api.type';
-import MessageAccordion from './components/MessageAccordion';
-import MessageForm from './components/MessageForm';
-import MessageUpdateForm from './components/MessageUpdateForm';
+import TicketAccordion from './components/TicketAccordion';
+import TicketForm from './components/TicketForm';
+import TicketUpdateForm from './components/TicketUpdateForm';
 import {
-  createMessage,
+  createTicket,
   deleteMessage,
-  getMessage,
-  getMessages,
-  updateMessage
+  getTicket,
+  getTickets,
+  updateTicket
 } from './services/supportServices';
-import { MessageSchema, MessageUpdateSchema } from './types/Support.type';
+import { TicketSchema, TicketUpdateSchema } from './types/Support.type';
 import {
-  MessageGridResponseData,
-  MessageResponse
+  TicketGridResponseData,
+  TicketResponse
 } from './types/SupportApi.type';
 
 export const Support = () => {
   const [searchParams] = useSearchParams();
   const queryClient = useQueryClient();
   const [messageId, setMessageId] = React.useState<string>('');
-  const [messageUpdate, setMessageUpdate] = useState<
-    MessageResponse | undefined
-  >(undefined);
+  const [ticketUpdate, setMessageUpdate] = useState<TicketResponse | undefined>(
+    undefined
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const [editLoading, setEditLoading] = useState<boolean>(false);
   const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
@@ -53,12 +53,12 @@ export const Support = () => {
   const [open, setOpen] = React.useState(false);
   const [modalType, setModalType] = React.useState(ModalTypeEnum.INSERT);
 
-  const { data: messageResponse, isLoading } = useQuery<
-    MessageGridResponseData | undefined
+  const { data: ticketResponse, isLoading } = useQuery<
+    TicketGridResponseData | undefined
   >({
     queryKey: ['get-messages', page, limit],
     queryFn: async () => {
-      const response: APIResponse<MessageGridResponseData> = await getMessages({
+      const response: APIResponse<TicketGridResponseData> = await getTickets({
         page,
         limit
       });
@@ -68,30 +68,28 @@ export const Support = () => {
   });
 
   const { data: userBlockResponse, isLoading: isMessageBlockLoading } =
-    useQuery<MessageGridResponseData | undefined>({
+    useQuery<TicketGridResponseData | undefined>({
       queryKey: ['get-tickets', page, limit],
       queryFn: async () => {
-        const response: APIResponse<MessageGridResponseData> =
-          await getMessages({
-            page,
-            limit,
-            status: 'banned'
-          });
+        const response: APIResponse<TicketGridResponseData> = await getTickets({
+          page,
+          limit,
+          status: 'banned'
+        });
         return response.data;
       },
       placeholderData: keepPreviousData
     });
 
   const { data: userOnlineResponse, isLoading: isSupportOnlineLoading } =
-    useQuery<MessageGridResponseData | undefined>({
+    useQuery<TicketGridResponseData | undefined>({
       queryKey: ['get-closed-tickets', page, limit],
       queryFn: async () => {
-        const response: APIResponse<MessageGridResponseData> =
-          await getMessages({
-            page,
-            limit,
-            status: 'closed'
-          });
+        const response: APIResponse<TicketGridResponseData> = await getTickets({
+          page,
+          limit,
+          status: 'closed'
+        });
         return response.data;
       },
       placeholderData: keepPreviousData
@@ -111,7 +109,7 @@ export const Support = () => {
     setLoading(true);
     const response = await deleteMessage(userId);
     if (response.success) {
-      toast.success('Usuário excluído com sucesso!', {
+      toast.success('Ticket excluído com sucesso!', {
         position: 'top-center'
       });
       queryClient.invalidateQueries({ queryKey: ['get-messages'] });
@@ -119,45 +117,53 @@ export const Support = () => {
       queryClient.invalidateQueries({ queryKey: ['get-closed-tickets'] });
       handleClose();
     } else {
-      toast.error('Erro ao excluir usuário!', {
+      toast.error('Erro ao excluir ticket!', {
         position: 'top-center'
       });
     }
     setLoading(false);
   };
 
-  const handleCreate = async (message: MessageSchema) => {
+  const handleCreate = async ({ userId, subject }: TicketSchema) => {
     setLoading(true);
-    const result: APIResponse = await createMessage(message);
+    const result: APIResponse = await createTicket({ userId, subject });
     if (result.success) {
       queryClient.invalidateQueries({ queryKey: ['get-messages'] });
       queryClient.invalidateQueries({ queryKey: ['get-tickets'] });
       queryClient.invalidateQueries({ queryKey: ['get-closed-tickets'] });
-      toast.success('Usuário cadastrado com sucesso!', {
+      toast.success('Ticket cadastrado com sucesso!', {
         position: 'top-center'
       });
       handleClose();
     } else {
-      toast.error('Erro ao cadastrar usuário!', {
+      toast.error('Erro ao cadastrar ticket!', {
         position: 'top-center'
       });
     }
     setLoading(false);
   };
 
-  const handleSave = async (id: string, message: MessageUpdateSchema) => {
+  const handleSave = async (
+    id: string,
+    { userId, supportId, deleted, subject }: TicketUpdateSchema
+  ) => {
     setLoading(true);
-    const result: APIResponse = await updateMessage(id, message);
+    const result: APIResponse = await updateTicket(id, {
+      userId,
+      supportId,
+      deleted,
+      subject
+    });
     if (result.success) {
       queryClient.invalidateQueries({ queryKey: ['get-messages'] });
       queryClient.invalidateQueries({ queryKey: ['get-tickets'] });
       queryClient.invalidateQueries({ queryKey: ['get-closed-tickets'] });
-      toast.success('Usuário editado com sucesso!', {
+      toast.success('Ticket editado com sucesso!', {
         position: 'top-center'
       });
       handleClose();
     } else {
-      toast.error('Erro ao editar usuário!', {
+      toast.error('Erro ao editar ticket!', {
         position: 'top-center'
       });
     }
@@ -166,12 +172,12 @@ export const Support = () => {
 
   const handleEdit = async (id: string) => {
     setEditLoading(true);
-    const result: APIResponse<MessageResponse> = await getMessage(id);
+    const result: APIResponse<TicketResponse> = await getTicket(id);
     if (result.success) {
       setMessageUpdate(result.data);
       handleOpen(ModalTypeEnum.UPDATE);
     } else {
-      toast.error('Erro ao carregar usuário');
+      toast.error('Erro ao carregar ticket');
     }
     setEditLoading(false);
   };
@@ -183,8 +189,8 @@ export const Support = () => {
       children: (
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <MessageAccordion
-            messageGridResponseData={messageResponse}
+          <TicketAccordion
+            ticketGridResponseData={ticketResponse}
             deleteCallback={(id) => {
               setMessageId(id);
               handleOpen(ModalTypeEnum.DELETE);
@@ -204,8 +210,8 @@ export const Support = () => {
       children: (
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <MessageAccordion
-            messageGridResponseData={messageResponse}
+          <TicketAccordion
+            ticketGridResponseData={ticketResponse}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
             editLoading={editLoading}
@@ -222,8 +228,8 @@ export const Support = () => {
       children: (
         <>
           <AddButtonTab onClick={() => handleOpen(ModalTypeEnum.INSERT)} />
-          <MessageAccordion
-            messageGridResponseData={messageResponse}
+          <TicketAccordion
+            ticketGridResponseData={ticketResponse}
             deleteCallback={() => handleOpen(ModalTypeEnum.DELETE)}
             editCallback={() => handleOpen(ModalTypeEnum.UPDATE)}
             editLoading={editLoading}
@@ -243,9 +249,9 @@ export const Support = () => {
             <PersonIcon sx={{ color: grey[900], fontSize: '25px' }} />
             <Typography id="modal-modal-title" variant="h1">
               {modalType === ModalTypeEnum.INSERT
-                ? 'Novo Usuário'
+                ? 'Novo Ticket'
                 : modalType === ModalTypeEnum.UPDATE
-                  ? 'Atualizar Usuário'
+                  ? 'Atualizar Ticket'
                   : 'Corfirmar exclusão'}
             </Typography>
           </Stack>
@@ -253,7 +259,7 @@ export const Support = () => {
             {modalType === ModalTypeEnum.DELETE ? (
               <Box mt={2}>
                 <Typography variant="h3">
-                  Confirma a exclusão do usuário?
+                  Confirma a exclusão do ticket?
                 </Typography>
                 <Box mt={2} display={'flex'} justifyContent={'flex-end'}>
                   <Button
@@ -268,14 +274,14 @@ export const Support = () => {
                   </Button>
                 </Box>
               </Box>
-            ) : messageUpdate ? (
-              <MessageUpdateForm
+            ) : ticketUpdate ? (
+              <TicketUpdateForm
                 onSave={handleSave}
-                messageUpdate={messageUpdate}
+                ticketUpdate={ticketUpdate}
                 loading={loading}
               />
             ) : (
-              <MessageForm onCreate={handleCreate} loading={loading} />
+              <TicketForm onCreate={handleCreate} loading={loading} />
             )}
           </Box>
         </Box>

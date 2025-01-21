@@ -77,7 +77,7 @@ export const updateUser = async (id: string, user: UserPutRequest) => {
 };
 
 export const deleteUser = async (id: string) => {
-  const response: APIResponse = await deleteApi({ url: `/users/${id}` });
+  const response = await deleteApi({ url: `/users/${id}` });
 
   return response;
 };

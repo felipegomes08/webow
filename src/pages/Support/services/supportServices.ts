@@ -1,53 +1,48 @@
 import { deleteApi, getApi, postApi, putApi } from 'services/apiService';
 import { APIResponse } from 'types/api/Api.type';
 import {
-  MessagePostRequest,
-  MessagePutRequest,
-  MessageResponse,
-  MessagesGetRequest
+  TicketPostRequest,
+  TicketPutRequest,
+  TicketResponse,
+  TicketsGetRequest
 } from '../types/SupportApi.type';
 
-export const createMessage = async (message: MessagePostRequest) => {
+export const createTicket = async ({ userId, subject }: TicketPostRequest) => {
   const response: APIResponse = await postApi({
-    url: '/messages',
-    data: message
+    url: '/ticket',
+    data: { userId, subject }
   });
 
   return response;
 };
 
-export const getMessage = async (id: string) => {
-  const response: APIResponse<MessageResponse> = await getApi({
-    url: `/messages/${id}`
+export const getTicket = async (id: string) => {
+  const response: APIResponse<TicketResponse> = await getApi({
+    url: `/ticket/${id}`
   });
 
   return response;
 };
 
-export const getMessages = async ({
-  page,
-  limit,
-  id,
-  cpf,
-  email,
-  pixKey,
-  accountType,
-  status,
-  affiliateCode,
+export const getTickets = async ({
   createdAt,
-  balance
-}: MessagesGetRequest) => {
+  deleted,
+  id,
+  limit,
+  page,
+  subject,
+  supportId,
+  userId
+}: TicketsGetRequest) => {
   const queryParams = new URLSearchParams();
 
-  if (page) queryParams.append('page', page.toString());
+  if (deleted) queryParams.append('deleted', deleted.toString());
+  if (id) queryParams.append('id', id.toString());
   if (limit) queryParams.append('limit', limit.toString());
-  if (id) queryParams.append('id', id);
-  if (cpf) queryParams.append('cpf', cpf);
-  if (email) queryParams.append('email', email);
-  if (pixKey) queryParams.append('pixKey', pixKey);
-  if (accountType) queryParams.append('accountType', accountType);
-  if (status) queryParams.append('status', status);
-  if (affiliateCode) queryParams.append('affiliateCode', affiliateCode);
+  if (page) queryParams.append('page', page.toString());
+  if (subject) queryParams.append('subject', subject.toString());
+  if (supportId) queryParams.append('supportId', supportId.toString());
+  if (userId) queryParams.append('userId', userId.toString());
 
   if (createdAt) {
     if (createdAt.lte) queryParams.append('createdAt.lte', createdAt.lte);
@@ -56,31 +51,27 @@ export const getMessages = async ({
     if (createdAt.gte) queryParams.append('createdAt.gte', createdAt.gte);
   }
 
-  if (balance) {
-    if (balance.lte) queryParams.append('balance.lte', balance.lte.toString());
-    if (balance.lt) queryParams.append('balance.lt', balance.lt.toString());
-    if (balance.gt) queryParams.append('balance.gt', balance.gt.toString());
-    if (balance.gte) queryParams.append('balance.gte', balance.gte.toString());
-  }
-
   const response: APIResponse = await getApi({
-    url: `/messages?${queryParams}`
+    url: `/ticket?${queryParams}`
   });
 
   return response;
 };
 
-export const updateMessage = async (id: string, message: MessagePutRequest) => {
+export const updateTicket = async (
+  id: string,
+  { deleted, subject, supportId, userId }: TicketPutRequest
+) => {
   const response: APIResponse = await putApi({
-    url: `/messages/${id}`,
-    data: message
+    url: `/ticket/${id}`,
+    data: { deleted, subject, supportId, userId }
   });
 
   return response;
 };
 
 export const deleteMessage = async (id: string) => {
-  const response: APIResponse = await deleteApi({ url: `/messages/${id}` });
+  const response: APIResponse = await deleteApi({ url: `/ticket/${id}` });
 
   return response;
 };
